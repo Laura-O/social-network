@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { email: '', pass: '' };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
