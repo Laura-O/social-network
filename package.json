@@ -48,5 +48,9 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "devDependencies": {
+        "css-loader": "^0.28.9",
+        "style-loader": "^0.20.1"
+    }
 }
