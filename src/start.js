@@ -5,14 +5,8 @@ import RegistrationForm from './components/Registration.js';
 import Welcome from './components/Welcome.js';
 import './css/index.css';
 
-ReactDOM.render(
-    <div className="container">
-        <Logo />
-        <Welcome />
-    </div>,
-    document.querySelector('main'),
-);
+let component;
 
-// function HelloWorld() {
-//     return <div>Hello, World!</div>;
-// }
+location.pathname === '/welcome' ? (component = <Welcome />) : (component = <Logo />);
+
+ReactDOM.render(component, document.querySelector('main'));
