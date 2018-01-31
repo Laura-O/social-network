@@ -65,7 +65,7 @@ app.post('/register', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-    console.log('post route');
+    console.log('post route', req.body);
     const { email, pass } = req.body;
     const query = 'SELECT * FROM users WHERE email = $1';
 
