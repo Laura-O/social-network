@@ -5,7 +5,7 @@ class Logo extends Component {
     render() {
         return (
             <div className="main-logo">
-                <img className="main-logo" src="/images/fz-logo-mini.png" />
+                <img className="main-logo" src="/images/fz-logo-mini-sm.png" />
             </div>
         );
     }

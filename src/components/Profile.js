@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProfilePicUpload from './ProfilePicUpload';
+import ProfilePic from './ProfilePic';
 
 class Profile extends Component {
     constructor(props) {
@@ -7,7 +7,14 @@ class Profile extends Component {
     }
 
     render() {
-        return <div>profile</div>;
+        return (
+            <div className="user-profile">
+                <ProfilePic />
+                <div className="user-data">
+                    {this.props.first} {this.props.last}
+                </div>
+            </div>
+        );
     }
 }
 

@@ -58,28 +58,30 @@ class App extends Component {
 
         return (
             <div className="container">
-                <div className="top">
+                <header>
                     <Logo />
                     <ProfilePic
                         imgurl={this.state.profilepic}
                         uploaderVisible={this.uploaderVisible}
                         showUploader={e => this.showUploader(e)}
                     />
+                </header>
+                <div className="main-wrapper">
+                    <div>{uploader}</div>
+                    <Route
+                        path="/"
+                        render={() => (
+                            <Profile
+                                id={this.state.id}
+                                first={this.state.first}
+                                last={this.state.last}
+                                profilePic={this.state.profilePic}
+                                bio={this.state.bio}
+                                setBio={this.setBio}
+                            />
+                        )}
+                    />
                 </div>
-                <div>{uploader}</div>
-                <Route
-                    path="/"
-                    render={() => (
-                        <Profile
-                            id={this.state.id}
-                            first={this.state.first}
-                            last={this.state.last}
-                            profilePic={this.state.profilePic}
-                            bio={this.state.bio}
-                            setBio={this.setBio}
-                        />
-                    )}
-                />
             </div>
         );
     }
