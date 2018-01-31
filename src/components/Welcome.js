@@ -6,8 +6,8 @@ import Login from './Login';
 class Welcome extends Component {
     render() {
         return (
-            <div id="welcome">
-                <div>Welcome</div>
+            <div className="welcome">
+                <img className="welcome-logo" src="/images/fz-logo.png" />
                 <HashRouter>
                     <div>
                         <Route exact path="/" component={Registration} />

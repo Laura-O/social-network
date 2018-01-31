@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ProfilePicUpload from './ProfilePicUpload';
 
 class ProfilePic extends Component {
     constructor(props) {
@@ -6,11 +7,10 @@ class ProfilePic extends Component {
         this.state = {
             profilePicUrl: this.props.imgurl || './images/default-user.jpg',
         };
-        console.log(this.state);
     }
     render() {
         return (
-            <div className="profile-picture">
+            <div className="profile-picture" onClick={this.props.showUploader}>
                 <img src={this.state.profilePicUrl} />
             </div>
         );
