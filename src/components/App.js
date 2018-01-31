@@ -9,12 +9,15 @@ import ProfilePicUpload from './ProfilePicUpload.js';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            first: '',
+            last: '',
+            profilepic: '',
+        };
     }
 
     componentDidMount() {
         axios.get('/user').then(({ data }) => {
-            console.log(data);
             this.setState({
                 first: data.first,
                 last: data.last,
@@ -26,20 +29,37 @@ class App extends Component {
 
     showUploader() {
         this.setState({ showUploader: true });
-        console.log('clicked');
+    }
+
+    uploadFile(e) {
+        const formData = new FormData();
+        formData.append('file', e.target.files[0]);
+
+        axios
+            .post('/files', formData)
+            .then(serverResponse => {
+                this.setState(serverResponse.data);
+                this.removeInfo();
+            })
+            .catch(err => {
+                this.setState({
+                    error: 'Something went wrong. Please try again!',
+                });
+            });
     }
 
     render() {
         let uploader = null;
         if (this.state.showUploader) {
-            uploader = <ProfilePicUpload />;
+            uploader = <ProfilePicUpload uploadFile={e => this.uploadFile(e)} />;
         }
+
         return (
             <div className="container">
                 <div className="top">
                     <Logo />
                     <ProfilePic
-                        imgurl={this.state.profilepicurl}
+                        imgurl={this.state.profilepic}
                         uploaderVisible={this.uploaderVisible}
                         showUploader={e => this.showUploader(e)}
                     />

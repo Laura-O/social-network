@@ -6,6 +6,42 @@ const cookieSession = require('cookie-session');
 const db = require('./src/actions/db.js');
 const password = require('./src/actions/password.js');
 const user = require('./src/actions/user.js');
+const multer = require('multer');
+const uidSafe = require('uid-safe');
+const path = require('path');
+const fs = require('fs');
+const knox = require('knox');
+
+let secrets;
+
+if (process.env.NODE_ENV == 'production') {
+    secrets = process.env; // in prod the secrets are environment variables
+} else {
+    secrets = require('./secrets'); // secrets.json is in .gitignore
+}
+const client = knox.createClient({
+    key: secrets.AWS_KEY,
+    secret: secrets.AWS_SECRET,
+    bucket: 'peachan',
+});
+
+var diskStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, __dirname + '/uploads');
+    },
+    filename: (req, file, callback) => {
+        uidSafe(24).then(uid => {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+var uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 app.use(compression());
 app.use(bodyParser.json());
@@ -96,6 +132,40 @@ app.post('/login', function(req, res) {
         .catch(function(err) {
             console.log(err);
         });
+});
+
+app.post('/files', uploader.single('file'), (req, res) => {
+    if (req.file) {
+        const s3Request = client.put(req.file.filename, {
+            'Content-Type': req.file.mimetype,
+            'Content-Length': req.file.size,
+            'x-amz-acl': 'public-read',
+        });
+        const readStream = fs.createReadStream(req.file.path);
+        readStream.pipe(s3Request);
+
+        s3Request.on('response', s3Response => {
+            const wasSuccessful = s3Response.statusCode == 200;
+            const query = 'UPDATE users SET profilepicurl = $1 WHERE id = $2';
+            db
+                .query(query, [req.file.filename, req.session.user.id])
+                .then(() => {
+                    req.session.user.profilepicurl = req.file.filename;
+                    res.json({
+                        success: true,
+                        filename: config.s3Url + req.file.filename,
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.json({ success: false });
+                });
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
 });
 
 app.listen(8080, function() {

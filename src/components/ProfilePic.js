@@ -4,14 +4,23 @@ import ProfilePicUpload from './ProfilePicUpload';
 class ProfilePic extends Component {
     constructor(props) {
         super(props);
+        console.log('props', this.props.imgurl);
         this.state = {
-            profilePicUrl: this.props.imgurl || './images/default-user.jpg',
+            profilePicUrl: this.props.imgurl,
         };
     }
+
     render() {
+        let profilePicture = '';
+        if (this.props.imgurl) {
+            profilePicture = 'https://s3.amazonaws.com/peachan/' + this.props.imgurl;
+        } else {
+            profilePicture = './images/default-user.jpg';
+        }
+
         return (
             <div className="profile-picture" onClick={this.props.showUploader}>
-                <img src={this.state.profilePicUrl} />
+                <img src={profilePicture} />
             </div>
         );
     }
