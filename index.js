@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const cookieSession = require('cookie-session');
 const db = require('./src/actions/db.js');
+const password = require('./src/actions/password.js');
 const user = require('./src/actions/user.js');
 
 app.use(compression());
@@ -14,6 +15,7 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     }),
 );
+app.use(express.static('public'));
 
 if (process.env.NODE_ENV != 'production') {
     app.use(
@@ -42,6 +44,14 @@ app.get('/welcome', function(req, res) {
     }
 });
 
+app.get('/user', function(req, res) {
+    if (!req.session.user) {
+        res.redirect('/welcome');
+    } else {
+        res.json(req.session.user);
+    }
+});
+
 app.get('/clearsession', function(req, res) {
     req.session = null;
     res.redirect('/');
@@ -51,7 +61,7 @@ app.post('/register', function(req, res) {
     const { first, last, email, pass } = req.body;
     const query = 'INSERT INTO users (first, last, email, pass) VALUES ($1, $2, $3, $4)';
 
-    user.hashPassword(pass).then(hashedPassword => {
+    password.hashPassword(pass).then(hashedPassword => {
         db
             .query(query, [first, last, email, hashedPassword])
             .then(function() {
@@ -65,17 +75,17 @@ app.post('/register', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-    console.log('post route', req.body);
     const { email, pass } = req.body;
     const query = 'SELECT * FROM users WHERE email = $1';
 
     db
         .query(query, [email])
         .then(function(results) {
-            user
+            password
                 .checkPassword(pass, results.rows[0].pass)
                 .then(result => {
-                    req.session.user = true;
+                    console.log(results.rows[0]);
+                    req.session.user = results.rows[0];
                     res.json({ success: true });
                 })
                 .catch(err => {

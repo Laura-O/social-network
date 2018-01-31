@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-
 const plugins = [];
 
 if (require.main == module) {
