@@ -1,13 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, HashRouter, Link, Route } from 'react-router-dom';
 import Logo from './components/Logo.js';
-import RegistrationForm from './components/Registration.js';
+import Registration from './components/Registration.js';
+import Login from './components/Login.js';
+import Profile from './components/Profile.js';
 import Welcome from './components/Welcome.js';
 import App from './components/App.js';
 import './css/index.css';
 
-let component;
+let guestRouter = (
+    <HashRouter>
+        <Welcome />
+    </HashRouter>
+);
 
-location.pathname === '/welcome' ? (component = <Welcome />) : (component = <App />);
+let userRouter = (
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+);
 
-ReactDOM.render(component, document.querySelector('main'));
+let router = location.pathname === '/welcome' ? guestRouter : userRouter;
+
+ReactDOM.render(router, document.querySelector('main'));

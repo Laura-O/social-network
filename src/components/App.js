@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 import Logo from './Logo.js';
 import Registration from './Registration.js';
 import Welcome from './Welcome.js';
+import Profile from './Profile.js';
 import ProfilePic from './ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
 
@@ -65,9 +67,19 @@ class App extends Component {
                     />
                 </div>
                 <div>{uploader}</div>
-
-                {/* <Welcome /> */}
-                {/* <Registration /> */}
+                <Route
+                    path="/"
+                    render={() => (
+                        <Profile
+                            id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            profilePic={this.state.profilePic}
+                            bio={this.state.bio}
+                            setBio={this.setBio}
+                        />
+                    )}
+                />
             </div>
         );
     }
