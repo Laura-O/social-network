@@ -117,6 +117,7 @@ app.post('/updateBio', function(req, res) {
         .query(query, [bio, id])
         .then(function(results) {
             console.log(results);
+            req.session.user.bio = results.rows[0].bio;
             res.json({ success: true, bio: results.rows[0].bio });
         })
         .catch(err => {
