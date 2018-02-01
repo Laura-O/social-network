@@ -4,14 +4,51 @@ import ProfilePic from './ProfilePic';
 class Profile extends Component {
     constructor(props) {
         super(props);
+        this.state = { bio: '' };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ bio: event.target.value });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.setBio(this.state.bio, this.props.id);
     }
 
     render() {
+        let bio;
+        if (this.props.bio) {
+            bio = this.props.bio;
+        } else {
+            bio = 'No bio provided';
+        }
+
         return (
             <div className="user-profile">
-                <ProfilePic />
+                <ProfilePic imgurl={this.props.imgurl} />
                 <div className="user-data">
-                    {this.props.first} {this.props.last}
+                    <h2>
+                        {this.props.first} {this.props.last}
+                    </h2>
+                    <div className="user-bio">
+                        <p>{this.props.bio}</p>
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                Add bio:
+                                <input
+                                    type="text"
+                                    value={this.state.bio}
+                                    onChange={this.handleChange}
+                                />
+                            </label>
+                            <input type="submit" value="Submit" />
+                        </form>
+                    </div>
+                    {/* <button onClick={this.props.setBio} /> */}
                 </div>
             </div>
         );

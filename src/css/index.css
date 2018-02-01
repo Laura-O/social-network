@@ -41,11 +41,16 @@ header .profile-picture {
 .user-profile {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     width: 100vh;
+    margin: 15px 5px;
+}
+
+.user-data {
     margin: 15px 5px;
 }
 
 .user-profile div.profile-picture {
     align-self: center;
+    max-height: 100px;
 }

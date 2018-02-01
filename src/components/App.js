@@ -12,19 +12,23 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             first: '',
             last: '',
             profilepic: '',
+            bio: '',
         };
     }
 
     componentDidMount() {
         axios.get('/user').then(({ data }) => {
+            console.log('componentdidmount', data);
             this.setState({
                 first: data.first,
                 last: data.last,
                 id: data.id,
                 profilepic: data.profilepicurl,
+                bio: data.bio,
             });
         });
     }
@@ -41,12 +45,25 @@ class App extends Component {
             .post('/files', formData)
             .then(serverResponse => {
                 this.setState(serverResponse.data);
-                this.removeInfo();
+                this.showUploader();
+                console.log('upload', this.state);
             })
             .catch(err => {
                 this.setState({
                     error: 'Something went wrong. Please try again!',
                 });
+            });
+    }
+
+    setBio(e, id) {
+        console.log(e, id);
+        axios
+            .post('/updateBio', { bio: e, id: id })
+            .then(serverResponse => {
+                console.log(serverResponse);
+            })
+            .catch(err => {
+                console.log(err);
             });
     }
 
@@ -68,19 +85,19 @@ class App extends Component {
                 </header>
                 <div className="main-wrapper">
                     <div>{uploader}</div>
-                    <Route
+                    {/* <Route
                         path="/"
-                        render={() => (
-                            <Profile
-                                id={this.state.id}
-                                first={this.state.first}
-                                last={this.state.last}
-                                profilePic={this.state.profilePic}
-                                bio={this.state.bio}
-                                setBio={this.setBio}
-                            />
-                        )}
+                        render={() => ( */}
+                    <Profile
+                        id={this.state.id}
+                        first={this.state.first}
+                        last={this.state.last}
+                        imgurl={this.state.profilepic}
+                        bio={this.state.bio}
+                        setBio={this.setBio}
                     />
+                    {/* )}
+                    /> */}
                 </div>
             </div>
         );

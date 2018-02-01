@@ -4,7 +4,6 @@ import ProfilePicUpload from './ProfilePicUpload';
 class ProfilePic extends Component {
     constructor(props) {
         super(props);
-        console.log('props', this.props.imgurl);
         this.state = {
             profilePicUrl: this.props.imgurl,
         };

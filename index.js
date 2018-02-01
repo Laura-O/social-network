@@ -110,6 +110,14 @@ app.post('/register', function(req, res) {
     });
 });
 
+app.post('/updateBio', function(req, res) {
+    const { bio, id } = req.body;
+    const query = 'UPDATE users SET bio = $1 WHERE id = $2';
+    db.query(query, [bio, id]).then(function(results) {
+        console.log(results);
+    });
+});
+
 app.post('/login', function(req, res) {
     const { email, pass } = req.body;
     const query = 'SELECT * FROM users WHERE email = $1';
@@ -120,7 +128,6 @@ app.post('/login', function(req, res) {
             password
                 .checkPassword(pass, results.rows[0].pass)
                 .then(result => {
-                    console.log(results.rows[0]);
                     req.session.user = results.rows[0];
                     res.json({ success: true });
                 })
@@ -153,7 +160,7 @@ app.post('/files', uploader.single('file'), (req, res) => {
                     req.session.user.profilepicurl = req.file.filename;
                     res.json({
                         success: true,
-                        filename: config.s3Url + req.file.filename,
+                        profilepic: req.file.filename,
                     });
                 })
                 .catch(err => {
