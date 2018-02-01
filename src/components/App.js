@@ -30,7 +30,7 @@ class App extends Component {
     }
 
     showUploader() {
-        this.setState({ showUploader: true });
+        this.setState({ showUploader: !this.state.showUploader });
     }
 
     uploadFile(e) {
