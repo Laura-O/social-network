@@ -18,11 +18,11 @@ class App extends Component {
             profilepic: '',
             bio: '',
         };
+        this.setBio = this.setBio.bind(this);
     }
 
     componentDidMount() {
         axios.get('/user').then(({ data }) => {
-            console.log('componentdidmount', data);
             this.setState({
                 first: data.first,
                 last: data.last,
@@ -55,12 +55,12 @@ class App extends Component {
             });
     }
 
-    setBio(e, id) {
-        console.log(e, id);
+    setBio(newBio, userId) {
         axios
-            .post('/updateBio', { bio: e, id: id })
+            .post('/updateBio', { bio: newBio, id: userId })
             .then(serverResponse => {
                 console.log(serverResponse);
+                this.setState({ bio: newBio });
             })
             .catch(err => {
                 console.log(err);

@@ -4,10 +4,11 @@ import ProfilePic from './ProfilePic';
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { bio: '' };
+        this.state = { bio: '', showBioInput: false };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.toggleBio = this.toggleBio.bind(this);
     }
 
     handleChange(event) {
@@ -17,6 +18,10 @@ class Profile extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.props.setBio(this.state.bio, this.props.id);
+    }
+
+    toggleBio() {
+        this.setState({ showBioInput: !this.state.showBioInput });
     }
 
     render() {
@@ -35,18 +40,23 @@ class Profile extends Component {
                         {this.props.first} {this.props.last}
                     </h2>
                     <div className="user-bio">
-                        <p>{this.props.bio}</p>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>
-                                Add bio:
-                                <input
-                                    type="text"
-                                    value={this.state.bio}
-                                    onChange={this.handleChange}
-                                />
-                            </label>
-                            <input type="submit" value="Submit" />
-                        </form>
+                        <div>
+                            {this.props.bio} <button onClick={this.toggleBio}>Edit bio</button>
+                        </div>
+
+                        {this.state.showBioInput && (
+                            <form onSubmit={this.handleSubmit}>
+                                <label>
+                                    Add bio:
+                                    <input
+                                        type="text"
+                                        value={this.state.bio}
+                                        onChange={this.handleChange}
+                                    />
+                                </label>
+                                <input type="submit" value="Submit" />
+                            </form>
+                        )}
                     </div>
                     {/* <button onClick={this.props.setBio} /> */}
                 </div>

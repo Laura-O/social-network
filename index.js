@@ -112,10 +112,16 @@ app.post('/register', function(req, res) {
 
 app.post('/updateBio', function(req, res) {
     const { bio, id } = req.body;
-    const query = 'UPDATE users SET bio = $1 WHERE id = $2';
-    db.query(query, [bio, id]).then(function(results) {
-        console.log(results);
-    });
+    const query = 'UPDATE users SET bio = $1 WHERE id = $2 RETURNING bio';
+    db
+        .query(query, [bio, id])
+        .then(function(results) {
+            console.log(results);
+            res.json({ success: true, bio: results.rows[0].bio });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 app.post('/login', function(req, res) {

@@ -54,3 +54,8 @@ header .profile-picture {
     align-self: center;
     max-height: 100px;
 }
+
+img.welcome-logo {
+    width: 200px;
+    height: auto;
+}
