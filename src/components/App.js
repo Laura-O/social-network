@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
 import Logo from './Logo.js';
 import Registration from './Registration.js';
@@ -7,6 +7,13 @@ import Welcome from './Welcome.js';
 import Profile from './Profile.js';
 import ProfilePic from './ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
+import ViewProfile from './ViewProfile.js';
+
+const About = () => (
+    <div>
+        <h2>About</h2>
+    </div>
+);
 
 class App extends Component {
     constructor(props) {
@@ -22,7 +29,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get('/user').then(({ data }) => {
+        axios.get('/getUser').then(({ data }) => {
             this.setState({
                 first: data.first,
                 last: data.last,
@@ -85,19 +92,24 @@ class App extends Component {
                 </header>
                 <div className="main-wrapper">
                     <div>{uploader}</div>
-                    {/* <Route
+                    <Link to="/user/1">Topics</Link>
+
+                    <Route
+                        exact
                         path="/"
-                        render={() => ( */}
-                    <Profile
-                        id={this.state.id}
-                        first={this.state.first}
-                        last={this.state.last}
-                        imgurl={this.state.profilepic}
-                        bio={this.state.bio}
-                        setBio={this.setBio}
+                        render={() => (
+                            <Profile
+                                id={this.state.id}
+                                first={this.state.first}
+                                last={this.state.last}
+                                imgurl={this.state.profilepic}
+                                bio={this.state.bio}
+                                setBio={this.setBio}
+                            />
+                        )}
                     />
-                    {/* )}
-                    /> */}
+
+                    <Route path="/user/:id" component={ViewProfile} />
                 </div>
             </div>
         );

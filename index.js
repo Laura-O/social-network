@@ -80,12 +80,24 @@ app.get('/welcome', function(req, res) {
     }
 });
 
-app.get('/user', function(req, res) {
+app.get('/getUser', function(req, res) {
     if (!req.session.user) {
         res.redirect('/welcome');
     } else {
         res.json(req.session.user);
     }
+});
+
+app.get('/getProfile/:id', function(req, res) {
+    const id = req.params.id;
+    const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
+    db
+        .query(query, [id])
+        .then(results => {
+            console.log(results);
+            res.json(results.rows[0]);
+        })
+        .catch(err => console.log(err));
 });
 
 app.get('/clearsession', function(req, res) {
@@ -102,7 +114,7 @@ app.post('/register', function(req, res) {
             .query(query, [first, last, email, hashedPassword])
             .then(function() {
                 req.session.user = true;
-                res.json({ success: true });
+                res.json({ success: true, bio: results.rows[0].bio });
             })
             .catch(function(err) {
                 console.log(err);

@@ -14,7 +14,7 @@ class ProfilePic extends Component {
         if (this.props.imgurl) {
             profilePicture = 'https://s3.amazonaws.com/peachan/' + this.props.imgurl;
         } else {
-            profilePicture = './images/default-user.jpg';
+            profilePicture = '/images/default-user.jpg';
         }
 
         return (
