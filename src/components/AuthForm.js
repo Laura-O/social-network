@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../config/axios';
 
 export default function(Component, url) {
     return class AuthForm extends React.Component {

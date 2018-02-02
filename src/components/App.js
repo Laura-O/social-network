@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../config/axios';
 import Logo from './Logo.js';
 import Registration from './Registration.js';
 import Welcome from './Welcome.js';
@@ -92,7 +92,6 @@ class App extends Component {
                 </header>
                 <div className="main-wrapper">
                     <div>{uploader}</div>
-                    <Link to="/user/1">Topics</Link>
 
                     <Route
                         exact
