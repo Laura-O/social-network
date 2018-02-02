@@ -11,6 +11,7 @@ const uidSafe = require('uid-safe');
 const path = require('path');
 const fs = require('fs');
 const knox = require('knox');
+const csurf = require('csurf');
 
 let secrets;
 
@@ -53,6 +54,12 @@ app.use(
 );
 app.use(express.static('public'));
 
+app.use(csurf());
+app.use(function(req, res, next) {
+    res.cookie('mytoken', req.csrfToken());
+    next();
+});
+
 if (process.env.NODE_ENV != 'production') {
     app.use(
         '/bundle.js',
@@ -90,14 +97,18 @@ app.get('/getUser', function(req, res) {
 
 app.get('/getProfile/:id', function(req, res) {
     const id = req.params.id;
-    const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
-    db
-        .query(query, [id])
-        .then(results => {
-            console.log(results);
-            res.json(results.rows[0]);
-        })
-        .catch(err => console.log(err));
+    if (id == req.session.user.id) {
+        res.redirect('/');
+    } else {
+        const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
+        db
+            .query(query, [id])
+            .then(results => {
+                console.log(results);
+                res.json(results.rows[0]);
+            })
+            .catch(err => console.log(err));
+    }
 });
 
 app.get('/clearsession', function(req, res) {
@@ -153,7 +164,6 @@ app.post('/login', function(req, res) {
                 .catch(err => {
                     console.log('query error', err.message, err.stack);
                 });
-            // res.json({ success: true });
         })
         .catch(function(err) {
             console.log(err);
@@ -191,6 +201,14 @@ app.post('/files', uploader.single('file'), (req, res) => {
         res.json({
             success: false,
         });
+    }
+});
+
+app.get('*', function(req, res) {
+    if (!req.session.user) {
+        res.redirect('/welcome');
+    } else {
+        res.sendFile(__dirname + '/index.html');
     }
 });
 
