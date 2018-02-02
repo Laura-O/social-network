@@ -183,13 +183,14 @@ app.post('/files', uploader.single('file'), (req, res) => {
         s3Request.on('response', s3Response => {
             const wasSuccessful = s3Response.statusCode == 200;
             const query = 'UPDATE users SET profilepicurl = $1 WHERE id = $2';
+            const fileName = 'https://s3.amazonaws.com/peachan/' + req.file.filename;
             db
-                .query(query, [req.file.filename, req.session.user.id])
+                .query(query, [fileName, req.session.user.id])
                 .then(() => {
-                    req.session.user.profilepicurl = req.file.filename;
+                    req.session.user.profilepicurl = fileName;
                     res.json({
                         success: true,
-                        profilepic: req.file.filename,
+                        profilepic: fileName,
                     });
                 })
                 .catch(err => {

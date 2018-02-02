@@ -27,9 +27,12 @@ class ViewProfile extends Component {
         return (
             <div className="user-profile">
                 <ProfilePic imgurl={this.state.userProfilepic} />
-                <h2>
-                    {this.state.userFirst} {this.state.userLast}
-                </h2>
+                <div className="profile-info">
+                    <h2>
+                        {this.state.userFirst} {this.state.userLast}
+                    </h2>
+                    <div>{this.state.userBio}</div>
+                </div>
             </div>
         );
     }

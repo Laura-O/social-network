@@ -53,7 +53,6 @@ class App extends Component {
             .then(serverResponse => {
                 this.setState(serverResponse.data);
                 this.showUploader();
-                console.log('upload', this.state);
             })
             .catch(err => {
                 this.setState({
@@ -91,6 +90,7 @@ class App extends Component {
                     />
                 </header>
                 <div className="main-wrapper">
+                    <hr />
                     <div>{uploader}</div>
 
                     <Route
