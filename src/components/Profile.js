@@ -34,7 +34,9 @@ class Profile extends Component {
 
         return (
             <div className="user-profile">
-                <ProfilePic imgurl={this.props.imgurl} />
+                <div className="profile-picture">
+                    <ProfilePic imgurl={this.props.imgurl} />
+                </div>
                 <div className="user-data">
                     <h2>
                         {this.props.first} {this.props.last}

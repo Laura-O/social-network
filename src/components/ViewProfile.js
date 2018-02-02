@@ -26,7 +26,13 @@ class ViewProfile extends Component {
     render() {
         return (
             <div className="user-profile">
-                <ProfilePic imgurl={this.state.userProfilepic} />
+                <div className="profile-picture">
+                    <ProfilePic imgurl={this.state.userProfilepic} />
+                    <div>
+                        <button name="button">Make friend request</button>
+                    </div>
+                </div>
+
                 <div className="profile-info">
                     <h2>
                         {this.state.userFirst} {this.state.userLast}

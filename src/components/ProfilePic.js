@@ -18,7 +18,7 @@ class ProfilePic extends Component {
         }
 
         return (
-            <div className="profile-picture" onClick={this.props.showUploader}>
+            <div className="profile-picture-wrapper" onClick={this.props.showUploader}>
                 <img className="profile-picture" src={profilePicture} />
             </div>
         );
