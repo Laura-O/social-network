@@ -99,18 +99,27 @@ app.get('/getUser', function(req, res) {
 app.get('/getProfile/:id', function(req, res) {
     const id = req.params.id;
     if (id == req.session.user.id) {
-        res.redirect('/');
+        // res.redirect('/');
+        return res.json({ loggedInUsersOwnProfile: true });
     } else {
         const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
         db
             .query(query, [id])
             .then(results => {
-                console.log(results);
                 res.json(results.rows[0]);
             })
             .catch(err => console.log(err));
     }
 });
+
+// midleware
+function requireUser(req, res, next) {
+    if (!req.session.user) {
+        res.sendStatus(403);
+    } else {
+        next();
+    }
+}
 
 // Friend requests
 app.get('/getFriendship/:id', function(req, res) {
@@ -154,7 +163,36 @@ app.post('/approveRequest', function(req, res) {
     const friend_id = req.body.friend_id;
 
     friendship
-        .approveRequest(userId, friendId)
+        .approveRequest(id, friend_id)
+        .then(results => {
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
+app.post('/cancelFriendship', function(req, res) {
+    const id = req.session.user.id;
+    const friend_id = req.body.friend_id;
+
+    friendship
+        .cancelFriend(id, friend_id)
+        .then(results => {
+            friendship
+                .cancelRequest(id, friend_id)
+                .then(results => {
+                    res.json(results);
+                })
+                .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+});
+
+app.post('/cancelRequest', function(req, res) {
+    const id = req.session.user.id;
+    const friend_id = req.body.friend_id;
+
+    friendship
+        .cancelRequest(id, friend_id)
         .then(results => {
             res.json(results);
         })

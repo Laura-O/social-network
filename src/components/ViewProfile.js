@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from '../config/axios';
 import ProfilePic from './ProfilePic';
+import FriendshipButton from './FriendshipButton';
 
 class ViewProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = { userId: this.props.match.params.id };
+        this.state = { userId: this.props.match.params.id, friendShipState: 'null' };
     }
 
     componentDidMount() {
@@ -21,19 +22,23 @@ class ViewProfile extends Component {
                 userBio: data.bio,
             });
         });
+        // axios.get(`/getFriendshipStatus/${this.props.match.params.id}`).then(({ data }) => {
+        //     console.log(data);
+        //     this.setState({
+        //         friendshipState: data,
+        //     });
+        // });
     }
-
-    getFriendshipStatus(friendId) {}
 
     makeFriendRequest(event, friendId) {
         event.preventDefault();
-        console.log(friendId);
+
         axios
             .post('/sendFriendrequest', {
                 friend_id: friendId,
             })
             .then(({ data }) => {
-                console.log(data);
+                this.setState({ friendshipState: 'pending' });
             });
     }
 
@@ -43,12 +48,10 @@ class ViewProfile extends Component {
                 <div className="profile-picture">
                     <ProfilePic imgurl={this.state.userProfilepic} />
                     <div>
-                        <button
-                            name="button"
-                            onClick={e => this.makeFriendRequest(e, this.props.match.params.id)}
-                        >
-                            Make friend request
-                        </button>
+                        <FriendshipButton
+                            friendship={this.state.friendshipState}
+                            friendId={this.props.match.params.id}
+                        />
                     </div>
                 </div>
 
