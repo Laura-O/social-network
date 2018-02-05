@@ -5,7 +5,7 @@ import ProfilePic from './ProfilePic';
 class ViewProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { userId: this.props.match.params.id };
     }
 
     componentDidMount() {
@@ -23,13 +23,32 @@ class ViewProfile extends Component {
         });
     }
 
+    getFriendshipStatus(friendId) {}
+
+    makeFriendRequest(event, friendId) {
+        event.preventDefault();
+        console.log(friendId);
+        axios
+            .post('/sendFriendrequest', {
+                friend_id: friendId,
+            })
+            .then(({ data }) => {
+                console.log(data);
+            });
+    }
+
     render() {
         return (
             <div className="user-profile">
                 <div className="profile-picture">
                     <ProfilePic imgurl={this.state.userProfilepic} />
                     <div>
-                        <button name="button">Make friend request</button>
+                        <button
+                            name="button"
+                            onClick={e => this.makeFriendRequest(e, this.props.match.params.id)}
+                        >
+                            Make friend request
+                        </button>
                     </div>
                 </div>
 

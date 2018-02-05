@@ -3,9 +3,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cookieSession = require('cookie-session');
-const db = require('./src/actions/db.js');
-const password = require('./src/actions/password.js');
-const user = require('./src/actions/user.js');
+const db = require('./src/models/db.js');
+const password = require('./src/models/password.js');
+const user = require('./src/models/user.js');
+const friendship = require('./src/models/friendship.js');
 const multer = require('multer');
 const uidSafe = require('uid-safe');
 const path = require('path');
@@ -111,6 +112,56 @@ app.get('/getProfile/:id', function(req, res) {
     }
 });
 
+// Friend requests
+app.get('/getFriendship/:id', function(req, res) {
+    const userId = req.session.user.id;
+    const friendId = req.params.id;
+
+    friendship
+        .isFriend(userId, friendId)
+        .then(results => {
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
+app.get('/getFriendshipStatus/:id', function(req, res) {
+    const userId = req.session.user.id;
+    const friendId = req.params.id;
+
+    friendship
+        .getFriendStatus(userId, friendId)
+        .then(results => {
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
+app.post('/sendFriendrequest', function(req, res) {
+    const id = req.session.user.id;
+    const friend_id = req.body.friend_id;
+
+    friendship
+        .sendFriendrequest(id, friend_id)
+        .then(results => {
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
+app.post('/approveRequest', function(req, res) {
+    const id = req.session.user.id;
+    const friend_id = req.body.friend_id;
+
+    friendship
+        .approveRequest(userId, friendId)
+        .then(results => {
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
+// Helper for clearing the session
 app.get('/clearsession', function(req, res) {
     req.session = null;
     res.redirect('/');
