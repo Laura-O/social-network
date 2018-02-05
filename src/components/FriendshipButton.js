@@ -49,7 +49,7 @@ class FriendshipButton extends Component {
                 .catch(err => console.log(err));
         } else if (this.state.friendshipState == 'request') {
             axios
-                .post('/sendFriendrequest', { friend_id: this.props.friendId })
+                .post('/approveRequest', { friend_id: this.props.friendId })
                 .then(
                     this.setState({
                         friendshipState: 'friends',
