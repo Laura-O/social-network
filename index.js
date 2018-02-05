@@ -96,7 +96,7 @@ app.get('/getUser', function(req, res) {
     }
 });
 
-app.get('/getProfile/:id', function(req, res) {
+app.get('/getProfile/:id', requireUser, function(req, res) {
     const id = req.params.id;
     if (id == req.session.user.id) {
         // res.redirect('/');
@@ -112,17 +112,8 @@ app.get('/getProfile/:id', function(req, res) {
     }
 });
 
-// midleware
-function requireUser(req, res, next) {
-    if (!req.session.user) {
-        res.sendStatus(403);
-    } else {
-        next();
-    }
-}
-
 // Friend requests
-app.get('/getFriendship/:id', function(req, res) {
+app.get('/getFriendship/:id', requireUser, function(req, res) {
     const userId = req.session.user.id;
     const friendId = req.params.id;
 
@@ -134,7 +125,7 @@ app.get('/getFriendship/:id', function(req, res) {
         .catch(err => console.log(err));
 });
 
-app.get('/getFriendshipStatus/:id', function(req, res) {
+app.get('/getFriendshipStatus/:id', requireUser, function(req, res) {
     const userId = req.session.user.id;
     const friendId = req.params.id;
 
@@ -146,7 +137,7 @@ app.get('/getFriendshipStatus/:id', function(req, res) {
         .catch(err => console.log(err));
 });
 
-app.post('/sendFriendrequest', function(req, res) {
+app.post('/sendFriendrequest', requireUser, function(req, res) {
     const id = req.session.user.id;
     const friend_id = req.body.friend_id;
 
@@ -158,7 +149,7 @@ app.post('/sendFriendrequest', function(req, res) {
         .catch(err => console.log(err));
 });
 
-app.post('/approveRequest', function(req, res) {
+app.post('/approveRequest', requireUser, function(req, res) {
     const id = req.session.user.id;
     const friend_id = req.body.friend_id;
 
@@ -170,7 +161,7 @@ app.post('/approveRequest', function(req, res) {
         .catch(err => console.log(err));
 });
 
-app.post('/cancelFriendship', function(req, res) {
+app.post('/cancelFriendship', requireUser, function(req, res) {
     const id = req.session.user.id;
     const friend_id = req.body.friend_id;
 
@@ -301,6 +292,15 @@ app.get('*', function(req, res) {
         res.sendFile(__dirname + '/index.html');
     }
 });
+
+// midleware
+function requireUser(req, res, next) {
+    if (!req.session.user) {
+        res.sendStatus(403);
+    } else {
+        next();
+    }
+}
 
 app.listen(8080, function() {
     console.log("I'm listening.");
