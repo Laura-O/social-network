@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getFriendRequests, getFriends } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import ProfilePic from '../components/ProfilePic';
+import FriendshipButton from '../components/FriendshipButton';
 
 class FriendList extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class FriendList extends Component {
                                 {friend.first} {friend.last}
                             </Link>
                         </div>
+                        <FriendshipButton friendId={friend.id} />
                     </div>
                 );
             });

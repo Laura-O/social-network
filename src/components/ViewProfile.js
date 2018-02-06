@@ -49,7 +49,7 @@ class ViewProfile extends Component {
                     <ProfilePic imgurl={this.state.userProfilepic} />
                     <div>
                         <FriendshipButton
-                            friendship={this.state.friendshipState}
+                            // friendship={this.state.friendshipState}
                             friendId={this.props.match.params.id}
                         />
                     </div>

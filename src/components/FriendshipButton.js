@@ -77,7 +77,6 @@ class FriendshipButton extends Component {
                 <button name="button" onClick={e => this.makeFriendAction(e, this.props.friendId)}>
                     {this.getButtonText()}
                 </button>
-                <p>{this.state.friendshipState}</p>
             </div>
         );
     }
