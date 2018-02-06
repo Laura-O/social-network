@@ -74,6 +74,7 @@ img.welcome-logo {
 
 .friends-wrapper {
     display: flex;
+    flex-wrap: wrap;
     margin: 10px;
 }
 
