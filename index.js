@@ -190,10 +190,21 @@ app.post('/cancelRequest', function(req, res) {
         .catch(err => console.log(err));
 });
 
+app.get('/getFriendrequests', function(req, res) {
+    console.log('getfriendrequests route');
+    friendship
+        .getReceived(req.session.user.id)
+        .then(results => {
+            console.log(results);
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
 app.get('/getFriends', function(req, res) {
     console.log('getfriends route');
     friendship
-        .getList(req.session.user.id)
+        .getFriends(req.session.user.id)
         .then(results => {
             console.log(results);
             res.json(results);

@@ -71,3 +71,12 @@ img.welcome-logo {
     width: 200px;
     height: auto;
 }
+
+.friends-wrapper {
+    display: flex;
+    margin: 10px;
+}
+
+.friends-wrapper .friend-container {
+    margin: 5px;
+}

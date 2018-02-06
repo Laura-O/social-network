@@ -10,8 +10,34 @@ function isFriend(id1, id2) {
     });
 }
 
-function getList(id) {
-    const query = 'SELECT * FROM friend_requests where receiver_id = $1';
+function getReceived(id) {
+    const query =
+        'SELECT * FROM friend_requests INNER JOIN users ON friend_requests.sender_id = users.id WHERE friend_requests.receiver_id = $1 AND NOT EXISTS (SELECT * FROM friends WHERE friends.user_1 = friend_requests.sender_id)';
+
+    return new Promise((resolve, reject) => {
+        db
+            .query(query, [id])
+            .then(results => resolve(results.rows))
+            .catch(err => reject(err));
+    });
+}
+
+function getFriends(id) {
+    const query =
+        'SELECT * FROM friends INNER JOIN users ON friends.user_2 = users.id WHERE friends.user_1 = $1';
+
+    return new Promise((resolve, reject) => {
+        db
+            .query(query, [id])
+            .then(results => resolve(results.rows))
+            .catch(err => reject(err));
+    });
+}
+
+function getRequested(id) {
+    const query =
+        'SELECT * FROM friend_requests INNER JOIN users ON friend_requests.request_id = users.id WHERE friend_requests.sender_id = $1';
+
     return new Promise((resolve, reject) => {
         db
             .query(query, [id])
@@ -121,5 +147,7 @@ module.exports = {
     getFriendStatus,
     cancelFriend,
     cancelRequest,
-    getList,
+    getRequested,
+    getReceived,
+    getFriends,
 };
