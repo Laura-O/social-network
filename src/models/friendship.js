@@ -10,6 +10,16 @@ function isFriend(id1, id2) {
     });
 }
 
+function getList(id) {
+    const query = 'SELECT * FROM friend_requests where receiver_id = $1';
+    return new Promise((resolve, reject) => {
+        db
+            .query(query, [id])
+            .then(results => resolve(results.rows))
+            .catch(err => reject(err));
+    });
+}
+
 function pendingFriend(id1, id2) {
     const query = 'SELECT * FROM friend_requests where sender_id = $1 AND receiver_id = $2';
     return new Promise((resolve, reject) => {
@@ -111,4 +121,5 @@ module.exports = {
     getFriendStatus,
     cancelFriend,
     cancelRequest,
+    getList,
 };

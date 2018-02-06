@@ -8,6 +8,7 @@ import Profile from './Profile.js';
 import ProfilePic from './ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
 import ViewProfile from './ViewProfile.js';
+import FriendList from '../containers/FriendList';
 
 const About = () => (
     <div>
@@ -107,7 +108,7 @@ class App extends Component {
                             />
                         )}
                     />
-
+                    <Route path="/friends" component={FriendList} />
                     <Route path="/user/:id" component={ViewProfile} />
                 </div>
             </div>

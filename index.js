@@ -190,6 +190,17 @@ app.post('/cancelRequest', function(req, res) {
         .catch(err => console.log(err));
 });
 
+app.get('/getFriends', function(req, res) {
+    console.log('getfriends route');
+    friendship
+        .getList(req.session.user.id)
+        .then(results => {
+            console.log(results);
+            res.json(results);
+        })
+        .catch(err => console.log(err));
+});
+
 // Helper for clearing the session
 app.get('/clearsession', function(req, res) {
     req.session = null;
