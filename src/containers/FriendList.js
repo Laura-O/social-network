@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getFriendRequests, getFriends } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import ProfilePic from '../components/ProfilePic';
@@ -26,7 +27,9 @@ class FriendList extends Component {
                     <div key={friend.id} className="friend-container">
                         <ProfilePic imgurl={friend.profilepicurl} />
                         <div>
-                            {friend.first} {friend.last} {friend.id}
+                            <Link to={`/user/${friend.id}`}>
+                                {friend.first} {friend.last}
+                            </Link>
                         </div>
                     </div>
                 );
