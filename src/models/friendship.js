@@ -78,7 +78,6 @@ function approveRequest(id1, id2) {
 }
 
 function cancelFriend(id1, id2) {
-    console.log('in cancel friend function');
     const query_1 = 'DELETE FROM friends WHERE user_1 = $1 AND user_2 =  $2';
     const query_2 = 'DELETE FROM friends WHERE user_1 = $2 AND user_2 =  $1';
 
@@ -97,7 +96,7 @@ function cancelFriend(id1, id2) {
 
 function cancelRequest(id1, id2) {
     const query_1 = 'DELETE FROM friend_requests WHERE sender_id = $1 AND receiver_id =  $2';
-    const query_2 = 'DELETE FROM friend_requests WHERE receiver_id = $2 AND sender_id =  $1';
+    const query_2 = 'DELETE FROM friend_requests WHERE receiver_id = $1 AND sender_id =  $2';
 
     return new Promise((resolve, reject) => {
         db

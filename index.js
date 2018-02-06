@@ -164,6 +164,7 @@ app.post('/approveRequest', requireUser, function(req, res) {
 app.post('/cancelFriendship', requireUser, function(req, res) {
     const id = req.session.user.id;
     const friend_id = req.body.friend_id;
+    console.log('cancel friendship route');
 
     friendship
         .cancelFriend(id, friend_id)

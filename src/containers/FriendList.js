@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getFriendRequests, getFriends } from '../actions/index';
+import {
+    getFriendRequests,
+    getFriends,
+    cancelFriendship,
+    addFriend,
+    approveRequest,
+} from '../actions/index';
 import { bindActionCreators } from 'redux';
 import ProfilePic from '../components/ProfilePic';
 import FriendshipButton from '../components/FriendshipButton';
@@ -21,9 +27,21 @@ class FriendList extends Component {
         const { friends } = this.props;
         const { friendRequests } = this.props;
 
-        const renderProfiles = friendData => {
+        const renderProfiles = (friendData, friends) => {
             return friendData.map(friend => {
-                console.log(friend);
+                const dispatchFunction = friends ? (
+                    <button onClick={() => this.props.cancelFriendship(friend.id)}>Cancel</button>
+                ) : (
+                    <button
+                        onClick={() => {
+                            this.props.approveRequest(friend.id);
+                            this.props.addFriend(friend);
+                        }}
+                    >
+                        Approve
+                    </button>
+                );
+
                 return (
                     <div key={friend.id} className="friend-container">
                         <ProfilePic imgurl={friend.profilepicurl} />
@@ -32,7 +50,8 @@ class FriendList extends Component {
                                 {friend.first} {friend.last}
                             </Link>
                         </div>
-                        <FriendshipButton friendId={friend.id} />
+                        {/* <FriendshipButton friendId={friend.id} /> */}
+                        {dispatchFunction}
                     </div>
                 );
             });
@@ -46,7 +65,7 @@ class FriendList extends Component {
                 </div>
                 <h2>People in your friendzone</h2>
                 <div className="friends-wrapper">
-                    {this.props.friends && renderProfiles(this.props.friends)}
+                    {this.props.friends && renderProfiles(this.props.friends, true)}
                 </div>
             </div>
         );
@@ -62,7 +81,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { getFriendRequests: getFriendRequests, getFriends: getFriends },
+        {
+            getFriendRequests: getFriendRequests,
+            getFriends: getFriends,
+            cancelFriendship: cancelFriendship,
+            addFriend: addFriend,
+            approveRequest: approveRequest,
+        },
         dispatch,
     );
 }

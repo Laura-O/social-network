@@ -31,7 +31,7 @@ const conf = {
                 loader: 'babel-loader',
                 query: {
                     presets: [['es2015'], ['react']],
-                    plugins: ['transform-async-to-generator'],
+                    plugins: ['transform-async-to-generator', 'transform-object-rest-spread'],
                 },
             },
         ],

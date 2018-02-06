@@ -1,8 +1,14 @@
 export default function(state = null, action) {
-    console.log('reducer', action.type);
+    console.log(action, state);
     switch (action.type) {
-                    case 'GET_FRIENDS':
-                        return action.payload;
+        case 'GET_FRIENDS':
+            return action.payload;
+        case 'CANCEL_FRIEND':
+            return state.filter(friend => {
+                return friend.id != action.id;
+            });
+        case 'ADD_FRIEND':
+            return state.concat(action.friend);
     }
     return state;
 }
