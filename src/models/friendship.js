@@ -10,6 +10,22 @@ function isFriend(id1, id2) {
     });
 }
 
+function getUsersById(idArray) {
+    const query = 'SELECT id,first,last,profilepicurl FROM users WHERE id = ANY($1)';
+
+    return db.query(query, [idArray]).then(function(dbUsers) {
+        return dbUsers.rows.map(dbUser => {
+            const { id, first, last, profilepicurl } = dbUser;
+            return {
+                id,
+                first,
+                last,
+                profilepicurl,
+            };
+        });
+    });
+}
+
 function getReceived(id) {
     const query =
         'SELECT * FROM friend_requests INNER JOIN users ON friend_requests.sender_id = users.id WHERE friend_requests.receiver_id = $1 AND NOT EXISTS (SELECT * FROM friends WHERE friends.user_1 = friend_requests.sender_id)';
@@ -149,4 +165,5 @@ module.exports = {
     getRequested,
     getReceived,
     getFriends,
+    getUsersById,
 };

@@ -16,7 +16,7 @@ import rootReducer from './reducers/index';
 
 import './css/index.css';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxPromise)));
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxPromise)));
 
 let guestRouter = (
     <HashRouter>

@@ -42,3 +42,10 @@ export function addFriend(friend) {
         friend,
     };
 }
+
+export function addOnlineUsers(onlineUsers) {
+    return {
+        type: 'ONLINE_USERS',
+        onlineUsers,
+    };
+}

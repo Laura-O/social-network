@@ -9,6 +9,8 @@ import ProfilePic from './ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
 import ViewProfile from './ViewProfile.js';
 import FriendList from '../containers/FriendList';
+import OnlineUsers from '../containers/OnlineUsers';
+import getSocket from '../socket';
 
 const About = () => (
     <div>
@@ -19,6 +21,7 @@ const About = () => (
 class App extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             id: '',
             first: '',
@@ -30,6 +33,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        getSocket();
         axios.get('/getUser').then(({ data }) => {
             this.setState({
                 first: data.first,
@@ -110,6 +114,7 @@ class App extends Component {
                     />
                     <Route path="/friends" component={FriendList} />
                     <Route path="/user/:id" component={ViewProfile} />
+                    <Route path="/online" component={OnlineUsers} />
                 </div>
             </div>
         );
