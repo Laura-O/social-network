@@ -48,12 +48,4 @@ router.get('/clearsession', function(req, res) {
     res.redirect('/');
 });
 
-function requireUser(req, res, next) {
-    if (!req.session.user) {
-        res.sendStatus(403);
-    } else {
-        next();
-    }
-}
-
 module.exports = router;

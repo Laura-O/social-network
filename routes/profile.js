@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../src/models/db.js');
 const friendship = require('../src/models/friendship.js');
+const middleware = require('../middleware/user.js');
 
-router.get('/getProfile/:id', requireUser, function(req, res) {
+router.get('/getProfile/:id', middleware.requireUser, function(req, res) {
     const id = req.params.id;
     if (id == req.session.user.id) {
         // res.redirect('/');
@@ -44,13 +45,5 @@ router.get('/getFriends', function(req, res) {
         })
         .catch(err => console.log(err));
 });
-
-function requireUser(req, res, next) {
-    if (!req.session.user) {
-        res.sendStatus(403);
-    } else {
-        next();
-    }
-}
 
 module.exports = router;
