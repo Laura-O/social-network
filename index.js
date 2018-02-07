@@ -14,6 +14,10 @@ const fs = require('fs');
 const knox = require('knox');
 const csurf = require('csurf');
 
+const profileRoutes = require('./routes/profile.js');
+const userRoutes = require('./routes/user.js');
+const authRoutes = require('./routes/auth.js');
+
 let secrets;
 
 if (process.env.NODE_ENV == 'production') {
@@ -61,6 +65,10 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(userRoutes);
+app.use(profileRoutes);
+app.use(authRoutes);
+
 if (process.env.NODE_ENV != 'production') {
     app.use(
         '/bundle.js',
@@ -94,183 +102,6 @@ app.get('/getUser', function(req, res) {
     } else {
         res.json(req.session.user);
     }
-});
-
-app.get('/getProfile/:id', requireUser, function(req, res) {
-    const id = req.params.id;
-    if (id == req.session.user.id) {
-        // res.redirect('/');
-        return res.json({ loggedInUsersOwnProfile: true });
-    } else {
-        const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
-        db
-            .query(query, [id])
-            .then(results => {
-                res.json(results.rows[0]);
-            })
-            .catch(err => console.log(err));
-    }
-});
-
-// Friend requests
-app.get('/getFriendship/:id', requireUser, function(req, res) {
-    const userId = req.session.user.id;
-    const friendId = req.params.id;
-
-    friendship
-        .isFriend(userId, friendId)
-        .then(results => {
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-app.get('/getFriendshipStatus/:id', requireUser, function(req, res) {
-    const userId = req.session.user.id;
-    const friendId = req.params.id;
-
-    friendship
-        .getFriendStatus(userId, friendId)
-        .then(results => {
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-app.post('/sendFriendrequest', requireUser, function(req, res) {
-    const id = req.session.user.id;
-    const friend_id = req.body.friend_id;
-
-    friendship
-        .sendFriendrequest(id, friend_id)
-        .then(results => {
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-app.post('/approveRequest', requireUser, function(req, res) {
-    const id = req.session.user.id;
-    const friend_id = req.body.friend_id;
-
-    friendship
-        .approveRequest(id, friend_id)
-        .then(results => {
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-app.post('/cancelFriendship', requireUser, function(req, res) {
-    const id = req.session.user.id;
-    const friend_id = req.body.friend_id;
-    console.log('cancel friendship route');
-
-    friendship
-        .cancelFriend(id, friend_id)
-        .then(results => {
-            friendship
-                .cancelRequest(id, friend_id)
-                .then(results => {
-                    res.json(results);
-                })
-                .catch(err => console.log(err));
-        })
-        .catch(err => console.log(err));
-});
-
-app.post('/cancelRequest', function(req, res) {
-    const id = req.session.user.id;
-    const friend_id = req.body.friend_id;
-
-    friendship
-        .cancelRequest(id, friend_id)
-        .then(results => {
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-app.get('/getFriendrequests', function(req, res) {
-    console.log('getfriendrequests route');
-    friendship
-        .getReceived(req.session.user.id)
-        .then(results => {
-            console.log(results);
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-app.get('/getFriends', function(req, res) {
-    console.log('getfriends route');
-    friendship
-        .getFriends(req.session.user.id)
-        .then(results => {
-            console.log(results);
-            res.json(results);
-        })
-        .catch(err => console.log(err));
-});
-
-// Helper for clearing the session
-app.get('/clearsession', function(req, res) {
-    req.session = null;
-    res.redirect('/');
-});
-
-app.post('/register', function(req, res) {
-    const { first, last, email, pass } = req.body;
-    const query = 'INSERT INTO users (first, last, email, pass) VALUES ($1, $2, $3, $4)';
-
-    password.hashPassword(pass).then(hashedPassword => {
-        db
-            .query(query, [first, last, email, hashedPassword])
-            .then(function() {
-                req.session.user = true;
-                res.json({ success: true, bio: results.rows[0].bio });
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
-    });
-});
-
-app.post('/updateBio', function(req, res) {
-    const { bio, id } = req.body;
-    const query = 'UPDATE users SET bio = $1 WHERE id = $2 RETURNING bio';
-    db
-        .query(query, [bio, id])
-        .then(function(results) {
-            console.log(results);
-            req.session.user.bio = results.rows[0].bio;
-            res.json({ success: true, bio: results.rows[0].bio });
-        })
-        .catch(err => {
-            console.log(err);
-        });
-});
-
-app.post('/login', function(req, res) {
-    const { email, pass } = req.body;
-    const query = 'SELECT * FROM users WHERE email = $1';
-
-    db
-        .query(query, [email])
-        .then(function(results) {
-            password
-                .checkPassword(pass, results.rows[0].pass)
-                .then(result => {
-                    req.session.user = results.rows[0];
-                    res.json({ success: true });
-                })
-                .catch(err => {
-                    console.log('query error', err.message, err.stack);
-                });
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
 });
 
 app.post('/files', uploader.single('file'), (req, res) => {
