@@ -16,7 +16,7 @@ class OnlineUsers extends Component {
     render() {
         const renderUsers = users => {
             return users.map(user => {
-                return <p>{user.first}</p>;
+                return <p key={user.id}>{user.first}</p>;
             });
         };
 

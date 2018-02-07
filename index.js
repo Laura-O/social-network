@@ -18,6 +18,8 @@ const userRoutes = require('./routes/user.js');
 const authRoutes = require('./routes/auth.js');
 const uploadRoutes = require('./routes/upload.js');
 
+const socket = require('./src/models/socket.js');
+
 app.use(compression());
 app.use(bodyParser.json());
 app.use(
@@ -38,6 +40,8 @@ app.use(userRoutes);
 app.use(profileRoutes);
 app.use(authRoutes);
 app.use(uploadRoutes);
+
+socket(app, io);
 
 if (process.env.NODE_ENV != 'production') {
     app.use(
@@ -82,31 +86,31 @@ app.get('*', function(req, res) {
     }
 });
 
-let onlineUsers = [];
+// let onlineUsers = [];
 
-app.post('/connect/:socketId', function(req, res) {
-    const socketId = req.params.socketId;
-    const userId = req.session.user.id;
+// app.post('/connect/:socketId', function(req, res) {
+//     const socketId = req.params.socketId;
+//     const userId = req.session.user.id;
 
-    const currentSocket = onlineUsers.find(socket => socket === socketId);
+//     const currentSocket = onlineUsers.find(socket => socket === socketId);
 
-    if (!currentSocket) {
-        onlineUsers.push({
-            userId,
-            socketId,
-        });
+//     if (!currentSocket) {
+//         onlineUsers.push({
+//             userId,
+//             socketId,
+//         });
 
-        const onlineIds = onlineUsers.map(user => user.userId);
+//         const onlineIds = onlineUsers.map(user => user.userId);
 
-        friendship
-            .getUsersById(onlineIds)
-            .then(users => {
-                io.sockets.sockets[socketId].emit('onlineUsers', users);
-                res.json(users);
-            })
-            .catch(err => console.log(err));
-    }
-});
+//         friendship
+//             .getUsersById(onlineIds)
+//             .then(users => {
+//                 io.sockets.sockets[socketId].emit('onlineUsers', users);
+//                 res.json(users);
+//             })
+//             .catch(err => console.log(err));
+//     }
+// });
 
 // // midleware
 // function requireUser(req, res, next) {
@@ -119,20 +123,4 @@ app.post('/connect/:socketId', function(req, res) {
 
 server.listen(8080, function() {
     console.log("I'm listening.");
-});
-
-io.on('connection', function(socket) {
-    console.log(`socket with the id ${socket.id} is now connected`);
-
-    socket.on('disconnect', function() {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-    });
-
-    socket.on('thanks', function(data) {
-        console.log(data);
-    });
-
-    socket.emit('welcome', {
-        message: 'Welome. It is nice to see you',
-    });
 });

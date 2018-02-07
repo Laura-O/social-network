@@ -49,3 +49,17 @@ export function addOnlineUsers(onlineUsers) {
         onlineUsers,
     };
 }
+
+export function addNewOnlineUser(user) {
+    return {
+        type: 'ADD_ONLINE_USER',
+        user,
+    };
+}
+
+export function removeOnlineUser(user) {
+    return {
+        type: 'REMOVE_ONLINE_USER',
+        user,
+    };
+}

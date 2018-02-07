@@ -11,11 +11,11 @@ function isFriend(id1, id2) {
 }
 
 function getUsersById(idArray) {
-    const query = 'SELECT id,first,last,profilepicurl FROM users WHERE id = ANY($1)';
+    const query = 'SELECT id, first, last, profilepicurl FROM users WHERE id = ANY($1)';
 
-    return db.query(query, [idArray]).then(function(dbUsers) {
-        return dbUsers.rows.map(dbUser => {
-            const { id, first, last, profilepicurl } = dbUser;
+    return db.query(query, [idArray]).then(function(results) {
+        return results.rows.map(user => {
+            const { id, first, last, profilepicurl } = user;
             return {
                 id,
                 first,
@@ -23,6 +23,23 @@ function getUsersById(idArray) {
                 profilepicurl,
             };
         });
+    });
+}
+
+function getUserById(id) {
+    const query = 'SELECT id, first, last, email, profilepicurl  FROM users WHERE id = $1';
+
+    return db.query(query, [id]).then(function(results) {
+        if (!results) {
+            throw 'User not found';
+        }
+        return {
+            id: results.rows[0].id,
+            first: results.rows[0].first,
+            last: results.rows[0].last,
+            email: results.rows[0].email,
+            profilePicUrl: results.rows[0].profilepicurl,
+        };
     });
 }
 
@@ -166,4 +183,5 @@ module.exports = {
     getReceived,
     getFriends,
     getUsersById,
+    getUserById,
 };
