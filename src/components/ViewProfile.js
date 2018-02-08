@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from '../config/axios';
 import ProfilePic from './ProfilePic';
 import FriendshipButton from './FriendshipButton';
+import PostList from './PostList';
 
 class ViewProfile extends Component {
     constructor(props) {
@@ -60,6 +61,7 @@ class ViewProfile extends Component {
                         {this.state.userFirst} {this.state.userLast}
                     </h2>
                     <div>{this.state.userBio}</div>
+                    <PostList user_id={this.props.match.params.id} />
                 </div>
             </div>
         );

@@ -47,10 +47,10 @@ hr {
 
 .user-profile {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    width: 100vh;
-    margin: 15px 5px;
+    align-content: center;
+    margin: 15px 15px;
 }
 
 .user-data {
@@ -59,7 +59,13 @@ hr {
 
 .user-profile div.profile-picture {
     align-self: center;
-    max-height: 100px;
+}
+
+.profile-info {
+    flex: 1;
+    align-self: center;
+    width: 80%;
+    margin: 5px auto;
 }
 
 img.welcome-logo {
@@ -80,4 +86,15 @@ img.welcome-logo {
 .main-wrapper {
     display: flex;
     flex-direction: column;
+}
+
+.post-wrapper {
+    align-self: center;
+}
+
+.user-post {
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-bottom: 15px;
+    padding: 0 5px 10px;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProfilePic from './ProfilePic';
 import ProfilePicUpload from './ProfilePicUpload';
+import PostForm from './PostForm';
 
 class Profile extends Component {
     constructor(props) {
@@ -64,7 +65,10 @@ class Profile extends Component {
                             </form>
                         )}
                     </div>
-                    {/* <button onClick={this.props.setBio} /> */}
+                    <div className="profile-posts">
+                        <h2>User Posts</h2>
+                        <PostForm />
+                    </div>
                 </div>
             </div>
         );

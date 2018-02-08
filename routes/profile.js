@@ -46,4 +46,31 @@ router.get('/getFriends', function(req, res) {
         .catch(err => console.log(err));
 });
 
+router.post('/savePost', function(req, res) {
+    const { title, content } = req.body;
+    const user_id = req.session.user.id;
+
+    const query = 'INSERT into posts (user_id, title, content) VALUES ($1, $2, $3)';
+    db
+        .query(query, [user_id, title, content])
+        .then(function(results) {
+            console.log(results);
+            res.json({ success: true });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+router.get('/getPosts/:id', function(req, res) {
+    console.log('in get post route', req.params.id);
+    const id = req.params.id;
+
+    const query = 'SELECT * from posts WHERE user_id = $1';
+    db.query(query, [id]).then(results => {
+        console.log(results);
+        res.json(results.rows);
+    });
+});
+
 module.exports = router;
