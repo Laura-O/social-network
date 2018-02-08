@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProfilePic from './ProfilePic';
+import ProfilePicUpload from './ProfilePicUpload';
 
 class Profile extends Component {
     constructor(props) {
@@ -44,6 +45,9 @@ class Profile extends Component {
                     <div className="user-bio">
                         <div>
                             {this.props.bio} <button onClick={this.toggleBio}>Edit bio</button>
+                        </div>
+                        <div>
+                            <ProfilePicUpload uploadFile={e => this.props.uploadFile(e)} />
                         </div>
 
                         {this.state.showBioInput && (

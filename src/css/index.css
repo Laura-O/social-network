@@ -45,11 +45,6 @@ hr {
     border: none;
 }
 
-.main-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
 .user-profile {
     display: flex;
     flex-direction: row;
@@ -80,4 +75,9 @@ img.welcome-logo {
 
 .friends-wrapper .friend-container {
     margin: 5px;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
 }

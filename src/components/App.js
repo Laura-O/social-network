@@ -7,6 +7,7 @@ import Welcome from './Welcome.js';
 import Profile from './Profile.js';
 import ProfilePic from './ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
+import Navbar from './Navbar';
 import ViewProfile from './ViewProfile.js';
 import FriendList from '../containers/FriendList';
 import OnlineUsers from '../containers/OnlineUsers';
@@ -86,17 +87,9 @@ class App extends Component {
 
         return (
             <div className="container">
-                <header>
-                    <Logo />
-                    <ProfilePic
-                        imgurl={this.state.profilepic}
-                        uploaderVisible={this.uploaderVisible}
-                        showUploader={e => this.showUploader(e)}
-                    />
-                </header>
+                <Navbar imgurl={this.state.profilepic} />
                 <div className="main-wrapper">
                     <hr />
-                    <div>{uploader}</div>
 
                     <Route
                         exact
@@ -109,6 +102,7 @@ class App extends Component {
                                 imgurl={this.state.profilepic}
                                 bio={this.state.bio}
                                 setBio={this.setBio}
+                                uploadFile={e => this.uploadFile(e)}
                             />
                         )}
                     />
