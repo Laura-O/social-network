@@ -1,5 +1,4 @@
 export default function(state = [], action) {
-    console.log(action, state);
     switch (action.type) {
         case 'ONLINE_USERS':
             return action.onlineUsers;

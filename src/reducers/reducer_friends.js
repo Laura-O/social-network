@@ -1,5 +1,4 @@
 export default function(state = null, action) {
-    console.log(action, state);
     switch (action.type) {
         case 'GET_FRIENDS':
             return action.payload;
