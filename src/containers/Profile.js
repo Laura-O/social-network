@@ -34,7 +34,6 @@ class Profile extends Component {
         axios
             .post('/updateBio', { bio: newBio, id: userId })
             .then(serverResponse => {
-                console.log(serverResponse);
                 this.props.changeBio(newBio);
                 this.toggleBio();
             })

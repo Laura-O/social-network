@@ -11,7 +11,7 @@ import Profile from './Profile.js';
 import ProfilePic from '../components/ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
 import Navbar from '../components/Navbar';
-import ViewProfile from '../components/ViewProfile.js';
+import ViewProfile from './ViewProfile.js';
 import FriendList from '../containers/FriendList';
 import OnlineUsers from '../containers/OnlineUsers';
 import getSocket from '../socket';
@@ -32,7 +32,6 @@ class App extends Component {
     componentDidMount() {
         getSocket();
         axios.get('/getUser').then(({ data }) => {
-            console.log(data);
             this.props.addCurrentUser(data);
         });
     }

@@ -9,7 +9,6 @@ class PostList extends Component {
 
     componentDidMount() {
         axios.get(`/getPosts/${this.props.user_id}`).then(({ data }) => {
-            console.log(data);
             this.setState({
                 posts: data,
             });

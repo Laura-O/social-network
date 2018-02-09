@@ -86,41 +86,6 @@ app.get('*', function(req, res) {
     }
 });
 
-// let onlineUsers = [];
-
-// app.post('/connect/:socketId', function(req, res) {
-//     const socketId = req.params.socketId;
-//     const userId = req.session.user.id;
-
-//     const currentSocket = onlineUsers.find(socket => socket === socketId);
-
-//     if (!currentSocket) {
-//         onlineUsers.push({
-//             userId,
-//             socketId,
-//         });
-
-//         const onlineIds = onlineUsers.map(user => user.userId);
-
-//         friendship
-//             .getUsersById(onlineIds)
-//             .then(users => {
-//                 io.sockets.sockets[socketId].emit('onlineUsers', users);
-//                 res.json(users);
-//             })
-//             .catch(err => console.log(err));
-//     }
-// });
-
-// // midleware
-// function requireUser(req, res, next) {
-//     if (!req.session.user) {
-//         res.sendStatus(403);
-//     } else {
-//         next();
-//     }
-// }
-
 server.listen(8080, function() {
     console.log("I'm listening.");
 });

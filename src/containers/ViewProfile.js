@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import ProfilePic from '../components/ProfilePic';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from '../config/axios';
-import ProfilePic from './ProfilePic';
-import FriendshipButton from './FriendshipButton';
-import PostList from './PostList';
+import FriendshipButton from '../components/FriendshipButton';
+import PostList from '../components/PostList';
 
 class ViewProfile extends Component {
     constructor(props) {
@@ -23,12 +25,6 @@ class ViewProfile extends Component {
                 userBio: data.bio,
             });
         });
-        // axios.get(`/getFriendshipStatus/${this.props.match.params.id}`).then(({ data }) => {
-        //     console.log(data);
-        //     this.setState({
-        //         friendshipState: data,
-        //     });
-        // });
     }
 
     makeFriendRequest(event, friendId) {
@@ -44,16 +40,13 @@ class ViewProfile extends Component {
     }
 
     render() {
+        const userId = this.props.user.id;
+
         return (
             <div className="user-profile">
                 <div className="profile-picture">
                     <ProfilePic imgurl={this.state.userProfilepic} />
-                    <div>
-                        <FriendshipButton
-                            // friendship={this.state.friendshipState}
-                            friendId={this.props.match.params.id}
-                        />
-                    </div>
+                    <FriendshipButton friendId={this.props.match.params.id} userId={userId} />
                 </div>
 
                 <div className="profile-info">
@@ -68,4 +61,10 @@ class ViewProfile extends Component {
     }
 }
 
-export default ViewProfile;
+function mapStateToProps(state) {
+    return {
+        user: state.user,
+    };
+}
+
+export default connect(mapStateToProps)(ViewProfile);

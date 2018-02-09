@@ -72,13 +72,21 @@ class FriendshipButton extends Component {
     }
 
     render() {
-        return (
-            <div>
+        const userId = this.props.userId;
+        const friendId = this.props.friendId;
+
+        let button = null;
+        if (userId == friendId) {
+            button = <div />;
+        } else {
+            button = (
                 <button name="button" onClick={e => this.makeFriendAction(e, this.props.friendId)}>
                     {this.getButtonText()}
                 </button>
-            </div>
-        );
+            );
+        }
+
+        return <div>{button}</div>;
     }
 }
 

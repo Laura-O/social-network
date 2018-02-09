@@ -6,18 +6,15 @@ const middleware = require('../middleware/user.js');
 
 router.get('/getProfile/:id', middleware.requireUser, function(req, res) {
     const id = req.params.id;
-    if (id == req.session.user.id) {
-        // res.redirect('/');
-        return res.json({ loggedInUsersOwnProfile: true });
-    } else {
-        const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
-        db
-            .query(query, [id])
-            .then(results => {
-                res.json(results.rows[0]);
-            })
-            .catch(err => console.log(err));
-    }
+    const loggedInUsersOwnProfile = id == req.session.user.id;
+
+    const query = 'SELECT bio, first, last, profilepicurl FROM users WHERE id = $1';
+    db
+        .query(query, [id])
+        .then(results => {
+            res.json(results.rows[0]);
+        })
+        .catch(err => console.log(err));
 });
 
 router.post('/updateBio', function(req, res) {

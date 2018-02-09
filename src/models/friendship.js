@@ -100,7 +100,6 @@ function sendFriendrequest(id1, id2) {
 }
 
 function approveRequest(id1, id2) {
-    console.log('in approve', id1, id2);
     const query = 'INSERT INTO friends (user_1, user_2) VALUES ($1, $2), ($2, $1)';
     return new Promise((resolve, reject) => {
         db
