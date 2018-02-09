@@ -16,14 +16,25 @@ class OnlineUsers extends Component {
     render() {
         const renderUsers = users => {
             return users.map(user => {
-                return <p key={user.id}>{user.first}</p>;
+                return (
+                    <div className="single-user" key={user.id}>
+                        <ProfilePic imgurl={user.profilePicUrl} />
+                        <div>
+                            <Link to={`/user/${user.id}`}>
+                                {user.first} {user.last}
+                            </Link>
+                        </div>
+                    </div>
+                );
             });
         };
 
         return (
-            <div>
-                <h2>Onlineusers</h2>
-                <div>{this.props.onlineUsers && renderUsers(this.props.onlineUsers)}</div>
+            <div className="online-users">
+                <div>
+                    <h2>Onlineusers</h2>
+                </div>
+                {this.props.onlineUsers && renderUsers(this.props.onlineUsers)}
             </div>
         );
     }

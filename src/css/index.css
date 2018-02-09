@@ -98,3 +98,22 @@ img.welcome-logo {
     margin-bottom: 15px;
     padding: 0 5px 10px;
 }
+
+.online-users {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.single-user {
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-bottom: 15px;
+    padding: 5px;
+    max-height: 200px;
+    align-self: center;
+}
+
+.single-user .profile-picture {
+    max-height: 100px;
+}
