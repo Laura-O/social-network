@@ -26,13 +26,7 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            id: '',
-            first: '',
-            last: '',
-            profilepic: '',
-            bio: '',
-        };
+        this.state = {};
     }
 
     componentDidMount() {
@@ -67,20 +61,11 @@ class App extends Component {
     render() {
         return (
             <div className="container">
-                <Navbar imgurl={this.state.profilepic} />
+                <Navbar imgurl={this.props.user.profilepicurl} />
                 <div className="main-wrapper">
                     <hr />
 
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Profile
-                                id={this.state.id}
-                                // uploadFile={e => this.uploadFile(e)}
-                            />
-                        )}
-                    />
+                    <Route exact path="/" render={() => <Profile id={this.state.id} />} />
                     <Route path="/friends" component={FriendList} />
                     <Route path="/user/:id" component={ViewProfile} />
                     <Route path="/online" component={OnlineUsers} />
