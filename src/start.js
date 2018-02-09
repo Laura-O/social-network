@@ -11,7 +11,7 @@ import Registration from './components/Registration.js';
 import Login from './components/Login.js';
 import Profile from './components/Profile.js';
 import Welcome from './components/Welcome.js';
-import App from './components/App.js';
+import App from './containers/App.js';
 import rootReducer from './reducers/index';
 
 import './css/index.css';
