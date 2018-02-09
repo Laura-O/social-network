@@ -54,7 +54,17 @@ hr {
 }
 
 .user-data {
-    margin: 15px 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 15px;
+}
+
+.user-bio {
+    margin: 15px;
+}
+
+.picture-upload {
+    margin: 15px;
 }
 
 .user-profile div.profile-picture {

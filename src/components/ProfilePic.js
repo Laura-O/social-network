@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ProfilePicUpload from './ProfilePicUpload';
 
 class ProfilePic extends Component {
     constructor(props) {

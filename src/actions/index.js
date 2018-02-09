@@ -63,3 +63,24 @@ export function removeOnlineUser(user) {
         user,
     };
 }
+
+export function addCurrentUser(user) {
+    return {
+        type: 'ADD_CURRENT_USER',
+        user,
+    };
+}
+
+export function changeBio(bio) {
+    return {
+        type: 'CHANGE_BIO',
+        bio,
+    };
+}
+
+export function changeProfilePic(profilepic) {
+    return {
+        type: 'CHANGE_PROFILE_PIC',
+        profilepic,
+    };
+}

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import ProfilePic from './ProfilePic';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import axios from '../config/axios';
+import ProfilePic from '../components/ProfilePic';
 import ProfilePicUpload from './ProfilePicUpload';
-import PostForm from './PostForm';
+import PostForm from '../components/PostForm';
+import { addCurrentUser, changeBio } from '../actions/index';
 
 class Profile extends Component {
     constructor(props) {
@@ -19,11 +23,24 @@ class Profile extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.setBio(this.state.bio, this.props.id);
+        this.setBio(this.state.bio, this.props.user.id);
     }
 
     toggleBio() {
         this.setState({ showBioInput: !this.state.showBioInput });
+    }
+
+    setBio(newBio, userId) {
+        axios
+            .post('/updateBio', { bio: newBio, id: userId })
+            .then(serverResponse => {
+                console.log(serverResponse);
+                this.props.changeBio(newBio);
+                this.toggleBio();
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {
@@ -37,18 +54,15 @@ class Profile extends Component {
         return (
             <div className="user-profile">
                 <div className="profile-picture">
-                    <ProfilePic imgurl={this.props.imgurl} />
+                    <ProfilePic imgurl={this.props.user.profilepicurl} />
                 </div>
                 <div className="user-data">
                     <h2>
-                        {this.props.first} {this.props.last}
+                        {this.props.user.first} {this.props.user.last}
                     </h2>
                     <div className="user-bio">
                         <div>
-                            {this.props.bio} <button onClick={this.toggleBio}>Edit bio</button>
-                        </div>
-                        <div>
-                            <ProfilePicUpload uploadFile={e => this.props.uploadFile(e)} />
+                            {this.props.user.bio} <button onClick={this.toggleBio}>Edit bio</button>
                         </div>
 
                         {this.state.showBioInput && (
@@ -65,6 +79,9 @@ class Profile extends Component {
                             </form>
                         )}
                     </div>
+
+                    <ProfilePicUpload />
+
                     <div className="profile-posts">
                         <h2>User Posts</h2>
                         <PostForm />
@@ -75,4 +92,19 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+function mapStateToProps(state) {
+    return {
+        user: state.user,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(
+        {
+            changeBio,
+        },
+        dispatch,
+    );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

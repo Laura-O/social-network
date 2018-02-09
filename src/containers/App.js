@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from '../config/axios';
+import { addCurrentUser, changeBio } from '../actions/index';
 import Logo from '../components/Logo.js';
 import Registration from '../components/Registration.js';
 import Welcome from '../components/Welcome.js';
-import Profile from '../components/Profile.js';
+import Profile from './Profile.js';
 import ProfilePic from '../components/ProfilePic.js';
-import ProfilePicUpload from '../components/ProfilePicUpload.js';
+import ProfilePicUpload from './ProfilePicUpload.js';
 import Navbar from '../components/Navbar';
 import ViewProfile from '../components/ViewProfile.js';
 import FriendList from '../containers/FriendList';
@@ -31,19 +33,13 @@ class App extends Component {
             profilepic: '',
             bio: '',
         };
-        this.setBio = this.setBio.bind(this);
     }
 
     componentDidMount() {
         getSocket();
         axios.get('/getUser').then(({ data }) => {
-            this.setState({
-                first: data.first,
-                last: data.last,
-                id: data.id,
-                profilepic: data.profilepicurl,
-                bio: data.bio,
-            });
+            console.log(data);
+            this.props.addCurrentUser(data);
         });
     }
 
@@ -68,24 +64,7 @@ class App extends Component {
             });
     }
 
-    setBio(newBio, userId) {
-        axios
-            .post('/updateBio', { bio: newBio, id: userId })
-            .then(serverResponse => {
-                console.log(serverResponse);
-                this.setState({ bio: newBio });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
     render() {
-        let uploader = null;
-        if (this.state.showUploader) {
-            uploader = <ProfilePicUpload uploadFile={e => this.uploadFile(e)} />;
-        }
-
         return (
             <div className="container">
                 <Navbar imgurl={this.state.profilepic} />
@@ -98,12 +77,7 @@ class App extends Component {
                         render={() => (
                             <Profile
                                 id={this.state.id}
-                                first={this.state.first}
-                                last={this.state.last}
-                                imgurl={this.state.profilepic}
-                                bio={this.state.bio}
-                                setBio={this.setBio}
-                                uploadFile={e => this.uploadFile(e)}
+                                // uploadFile={e => this.uploadFile(e)}
                             />
                         )}
                     />
@@ -122,4 +96,13 @@ function mapStateToProps(state) {
     };
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(
+        {
+            addCurrentUser,
+        },
+        dispatch,
+    );
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

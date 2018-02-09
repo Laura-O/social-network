@@ -9,7 +9,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import Logo from './components/Logo.js';
 import Registration from './components/Registration.js';
 import Login from './components/Login.js';
-import Profile from './components/Profile.js';
 import Welcome from './components/Welcome.js';
 import App from './containers/App.js';
 import rootReducer from './reducers/index';
