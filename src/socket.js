@@ -1,7 +1,13 @@
 import * as io from 'socket.io-client';
 import axios from './config/axios';
 import { store } from './start';
-import { addOnlineUsers, addNewOnlineUser, removeOnlineUser } from './actions';
+import {
+    addOnlineUsers,
+    addNewOnlineUser,
+    removeOnlineUser,
+    addChatMessages,
+    addSingleChatMessage,
+} from './actions';
 
 let socket;
 
@@ -19,6 +25,9 @@ export default function getSocket() {
         });
         socket.on('userLeft', function(newUser) {
             store.dispatch(removeOnlineUser(newUser));
+        });
+        socket.on('chatMessage', function(message) {
+            store.dispatch(addSingleChatMessage(message));
         });
     }
     return socket;

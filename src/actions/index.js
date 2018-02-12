@@ -84,3 +84,17 @@ export function changeProfilePic(profilepic) {
         profilepic,
     };
 }
+
+export function addSingleChatMessage(message) {
+    return {
+        type: 'ADD_CHAT_MESSAGE',
+        message,
+    };
+}
+
+export function addChatMessages(messages) {
+    return {
+        type: 'ADD_CHAT_MESSAGES',
+        messages,
+    };
+}

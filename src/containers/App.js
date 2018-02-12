@@ -11,6 +11,7 @@ import Profile from './Profile.js';
 import ProfilePic from '../components/ProfilePic.js';
 import ProfilePicUpload from './ProfilePicUpload.js';
 import Navbar from '../components/Navbar';
+import Chat from '../containers/Chat';
 import ViewProfile from './ViewProfile.js';
 import FriendList from '../containers/FriendList';
 import OnlineUsers from '../containers/OnlineUsers';
@@ -68,6 +69,7 @@ class App extends Component {
                     <Route path="/friends" component={FriendList} />
                     <Route path="/user/:id" component={ViewProfile} />
                     <Route path="/online" component={OnlineUsers} />
+                    <Route path="/chat" component={Chat} />
                 </div>
             </div>
         );

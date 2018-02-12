@@ -1,6 +1,9 @@
 const friendship = require('../models/friendship.js');
 
 module.exports = function(app, io) {
+    let onlineUsers = [];
+    let chatMessages = [];
+
     io.on('connection', function(socket) {
         socket.on('disconnect', function() {
             const socketToRemove = onlineUsers.filter(user => user.socketId === socket.id)[0];
@@ -12,9 +15,18 @@ module.exports = function(app, io) {
                 io.sockets.emit('userLeft', { userId: socketToRemove.userId });
             }
         });
-    });
 
-    let onlineUsers = [];
+        socket.on('chatMessage', function(message) {
+            const messageSender = onlineUsers.filter(user => user.socketId === socket.id)[0];
+            friendship.getUserById(messageSender.userId).then(user => {
+                io.sockets.emit('chatMessage', { user, message });
+                chatMessages.push({
+                    user_id: messageSender.userId,
+                    text: message,
+                });
+            });
+        });
+    });
 
     app.post('/connect/:socketId', function(req, res) {
         const socketId = req.params.socketId;
