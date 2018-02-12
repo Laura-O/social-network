@@ -131,6 +131,7 @@ img.welcome-logo {
 .chat-wrapper {
     width: 80%;
     height: 200px;
+    align-self: center;
 }
 
 .chat-input {
@@ -150,4 +151,8 @@ img.welcome-logo {
     background-color: transparent;
     width: 100%;
     resize: none;
+}
+
+.chat-username {
+    font-style: italic;
 }

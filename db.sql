@@ -34,3 +34,10 @@ CREATE TABLE posts(
   content text NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
+
+CREATE TABLE messages(
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  message text NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -31,7 +31,8 @@ class OnlineUsers extends Component {
             this.props.chatMessages.map(message => {
                 return (
                     <div key={message.id}>
-                        {message.user.first} {message.message}
+                        <span className="chat-username"> {message.user.first} </span>{' '}
+                        <span>{message.message}</span>
                     </div>
                 );
             });
