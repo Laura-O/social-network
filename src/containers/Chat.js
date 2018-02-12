@@ -7,10 +7,15 @@ class OnlineUsers extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        // this.renderChatMessages = this.renderChatMessages.bind(this);
     }
 
     componentDidMount() {
         this.newMessage.addEventListener('keydown', this.onKeyDown);
+    }
+
+    componentDidUpdate() {
+        this.elem.scrollTop = this.elem.scrollHeight;
     }
 
     onKeyDown(e) {
@@ -25,9 +30,8 @@ class OnlineUsers extends Component {
         const renderChatMessages = () =>
             this.props.chatMessages.map(message => {
                 return (
-                    <div>
-                        bla
-                        {/* {message.user} {message.message} */}
+                    <div key={message.id}>
+                        {message.user.first} {message.message}
                     </div>
                 );
             });
@@ -37,10 +41,17 @@ class OnlineUsers extends Component {
                 <div>
                     <h2>Chat</h2>
                 </div>
-                <div className="chat-container">
+                <div className="chat-history" ref={elem => (this.elem = elem)}>
                     {this.props.chatMessages && renderChatMessages()}
                 </div>
-                <textarea name="newMessage" ref={newMessage => (this.newMessage = newMessage)} />
+                <div className="chat-input">
+                    <textarea
+                        cols="60"
+                        rows="1"
+                        name="newMessage"
+                        ref={newMessage => (this.newMessage = newMessage)}
+                    />
+                </div>
             </div>
         );
     }

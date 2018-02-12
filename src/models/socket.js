@@ -19,11 +19,13 @@ module.exports = function(app, io) {
         socket.on('chatMessage', function(message) {
             const messageSender = onlineUsers.filter(user => user.socketId === socket.id)[0];
             friendship.getUserById(messageSender.userId).then(user => {
-                io.sockets.emit('chatMessage', { user, message });
+                io.sockets.emit('chatMessage', { id: chatMessages.length, user, message });
                 chatMessages.push({
+                    message_id: chatMessages.length,
                     user_id: messageSender.userId,
                     text: message,
                 });
+                console.log(chatMessages);
             });
         });
     });
