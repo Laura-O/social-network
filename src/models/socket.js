@@ -22,12 +22,12 @@ module.exports = function(app, io) {
 
             friendship.getUserById(messageSender.userId).then(user => {
                 messages.addMessage(user.id, message).then(id => {
-                    io.sockets.emit('chatMessage', { id: id, user, message });
+                    io.sockets.emit('chatMessage', { message_id: id, user, message });
 
                     chatMessages.push({
-                        message_id: chatMessages.length,
-                        user_id: id,
-                        text: message,
+                        message_id: id,
+                        user,
+                        message,
                     });
                 });
             });
@@ -49,6 +49,7 @@ module.exports = function(app, io) {
             .getUsersById(onlineIds)
             .then(users => {
                 io.sockets.sockets[socketId].emit('onlineUsers', users);
+                io.sockets.sockets[socketId].emit('chatMessages', chatMessages);
                 res.json(users);
             })
             .catch(err => console.log(err));

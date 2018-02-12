@@ -26,6 +26,9 @@ export default function getSocket() {
         socket.on('userLeft', function(newUser) {
             store.dispatch(removeOnlineUser(newUser));
         });
+        socket.on('chatMessages', function(messages) {
+            store.dispatch(addChatMessages(messages));
+        });
         socket.on('chatMessage', function(message) {
             store.dispatch(addSingleChatMessage(message));
         });
