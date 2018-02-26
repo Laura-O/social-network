@@ -1,5 +1,9 @@
 # Friendzone
 
+<p align="center">
+<img src="./public/github_imgs/screenshot.png" width="400">
+</p>
+
 ## Features
 
 * Registration and Login/Logout
