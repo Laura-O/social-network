@@ -1,4 +1,23 @@
-# Using this repo in development
+# Friendzone
+
+## Features
+
+* Registration and Login/Logout
+* Users can share profile information (bio and profile picture)
+* Users can send, approve and cancel friend requests
+* Online user list
+* Chat
+
+## Tech
+
+* React and Redux
+* React-Router v4
+* Express.js for the backend
+* PostgreSQL for user data
+* AWS S3 for storing user images
+* Socket.io for displaying online users and chat
+
+## Using this repo in development
 
 The `src` directory is where all of your client-side Javascript code should live. The file `src/start.js` is the entry point for your React application. All other files you use will either be imported by `start.js` or imported by files that are imported `start.js` (or imported by files that are imported by files that are imported by `start.js`, etc.).
 
