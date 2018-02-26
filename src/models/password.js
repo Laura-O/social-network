@@ -24,17 +24,21 @@ function hashPassword(plainTextPassword) {
  */
 function checkPassword(textEnteredInLoginForm, hashedPasswordFromDatabase) {
     return new Promise((resolve, reject) => {
-        bcrypt.compare(textEnteredInLoginForm, hashedPasswordFromDatabase, (err, doesMatch) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(doesMatch);
+        bcrypt.compare(
+            textEnteredInLoginForm,
+            hashedPasswordFromDatabase,
+            (err, doesMatch) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(doesMatch);
+                }
             }
-        });
+        );
     });
 }
 
 module.exports = {
     checkPassword,
-    hashPassword,
+    hashPassword
 };

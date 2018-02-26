@@ -8,11 +8,13 @@ class FriendshipButton extends Component {
     }
 
     componentDidMount() {
-        axios.get(`/getFriendshipStatus/${this.props.friendId}`).then(({ data }) => {
-            this.setState({
-                friendshipState: data,
+        axios
+            .get(`/getFriendshipStatus/${this.props.friendId}`)
+            .then(({ data }) => {
+                this.setState({
+                    friendshipState: data
+                });
             });
-        });
     }
 
     makeFriendAction(event, friendId) {
@@ -24,8 +26,8 @@ class FriendshipButton extends Component {
                 .post('/cancelFriendship', { friend_id: this.props.friendId })
                 .then(
                     this.setState({
-                        friendshipState: 'none',
-                    }),
+                        friendshipState: 'none'
+                    })
                 )
                 .catch(err => console.log(err));
         } else if (this.state.friendshipState == 'none') {
@@ -33,8 +35,8 @@ class FriendshipButton extends Component {
                 .post('/sendFriendrequest', { friend_id: this.props.friendId })
                 .then(
                     this.setState({
-                        friendshipState: 'pending',
-                    }),
+                        friendshipState: 'pending'
+                    })
                 )
                 .catch(err => console.log(err));
         } else if (this.state.friendshipState == 'pending') {
@@ -43,8 +45,8 @@ class FriendshipButton extends Component {
                 .post('/cancelRequest', { friend_id: this.props.friendId })
                 .then(
                     this.setState({
-                        friendshipState: 'none',
-                    }),
+                        friendshipState: 'none'
+                    })
                 )
                 .catch(err => console.log(err));
         } else if (this.state.friendshipState == 'request') {
@@ -52,8 +54,8 @@ class FriendshipButton extends Component {
                 .post('/approveRequest', { friend_id: this.props.friendId })
                 .then(
                     this.setState({
-                        friendshipState: 'friends',
-                    }),
+                        friendshipState: 'friends'
+                    })
                 )
                 .catch(err => console.log(err));
         }
@@ -80,7 +82,11 @@ class FriendshipButton extends Component {
             button = <div />;
         } else {
             button = (
-                <button name="button" onClick={e => this.makeFriendAction(e, this.props.friendId)}>
+                <button
+                    name="button"
+                    className="button"
+                    onClick={e => this.makeFriendAction(e, this.props.friendId)}
+                >
                     {this.getButtonText()}
                 </button>
             );

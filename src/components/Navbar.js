@@ -13,13 +13,13 @@ class Navbar extends Component {
             first: '',
             last: '',
             profilepic: '',
-            bio: '',
+            bio: ''
         };
     }
 
     render() {
         return (
-            <header>
+            <header className="level">
                 <Link to={`/`}>
                     <Logo />
                 </Link>

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Link, withRouter } from 'react-router-dom';
+import {
+    BrowserRouter,
+    Route,
+    Switch,
+    Link,
+    withRouter
+} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from '../config/axios';
@@ -53,19 +59,23 @@ class App extends Component {
             })
             .catch(err => {
                 this.setState({
-                    error: 'Something went wrong. Please try again!',
+                    error: 'Something went wrong. Please try again!'
                 });
             });
     }
 
     render() {
         return (
-            <div className="container">
+            <div className="main-container">
                 <Navbar imgurl={this.props.user.profilepicurl} />
                 <div className="main-wrapper">
                     <hr />
 
-                    <Route exact path="/" render={() => <Profile id={this.state.id} />} />
+                    <Route
+                        exact
+                        path="/"
+                        render={() => <Profile id={this.state.id} />}
+                    />
                     <Route path="/friends" component={FriendList} />
                     <Route path="/user/:id" component={ViewProfile} />
                     <Route path="/online" component={OnlineUsers} />
@@ -78,16 +88,16 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user,
+        user: state.user
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            addCurrentUser,
+            addCurrentUser
         },
-        dispatch,
+        dispatch
     );
 }
 

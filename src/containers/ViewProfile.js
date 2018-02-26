@@ -9,7 +9,10 @@ import PostList from '../components/PostList';
 class ViewProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = { userId: this.props.match.params.id, friendShipState: 'null' };
+        this.state = {
+            userId: this.props.match.params.id,
+            friendShipState: 'null'
+        };
     }
 
     componentDidMount() {
@@ -17,14 +20,16 @@ class ViewProfile extends Component {
     }
 
     componentWillReceiveProps() {
-        axios.get(`/getProfile/${this.props.match.params.id}`).then(({ data }) => {
-            this.setState({
-                userFirst: data.first,
-                userLast: data.last,
-                userProfilepic: data.profilepicurl,
-                userBio: data.bio,
+        axios
+            .get(`/getProfile/${this.props.match.params.id}`)
+            .then(({ data }) => {
+                this.setState({
+                    userFirst: data.first,
+                    userLast: data.last,
+                    userProfilepic: data.profilepicurl,
+                    userBio: data.bio
+                });
             });
-        });
     }
 
     makeFriendRequest(event, friendId) {
@@ -32,7 +37,7 @@ class ViewProfile extends Component {
 
         axios
             .post('/sendFriendrequest', {
-                friend_id: friendId,
+                friend_id: friendId
             })
             .then(({ data }) => {
                 this.setState({ friendshipState: 'pending' });
@@ -44,18 +49,22 @@ class ViewProfile extends Component {
 
         return (
             <div className="user-profile">
-                <div className="profile-picture">
-                    <ProfilePic imgurl={this.state.userProfilepic} />
-                    <FriendshipButton friendId={this.props.match.params.id} userId={userId} />
-                </div>
-
-                <div className="profile-info">
-                    <h2>
+                <section className="section">
+                    <h2 className="title is-centered">
                         {this.state.userFirst} {this.state.userLast}
                     </h2>
-                    <div>{this.state.userBio}</div>
-                    <PostList user_id={this.props.match.params.id} />
+                    <div className="is-italic">{this.state.userBio}</div>
+                </section>
+
+                <div className="profile-picture">
+                    <ProfilePic imgurl={this.state.userProfilepic} />
+                    <FriendshipButton
+                        friendId={this.props.match.params.id}
+                        userId={userId}
+                    />
                 </div>
+
+                <PostList user_id={this.props.match.params.id} />
             </div>
         );
     }
@@ -63,7 +72,7 @@ class ViewProfile extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user,
+        user: state.user
     };
 }
 

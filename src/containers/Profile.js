@@ -43,49 +43,49 @@ class Profile extends Component {
     }
 
     render() {
-        let bio;
-        if (this.props.bio) {
-            bio = this.props.bio;
-        } else {
-            bio = 'No bio provided';
-        }
-
         return (
             <div className="user-profile">
                 <div className="profile-picture">
                     <ProfilePic imgurl={this.props.user.profilepicurl} />
                 </div>
-                <div className="user-data">
-                    <h2>
-                        {this.props.user.first} {this.props.user.last}
-                    </h2>
-                    <div className="user-bio">
-                        <div>
-                            {this.props.user.bio} <button onClick={this.toggleBio}>Edit bio</button>
-                        </div>
 
-                        {this.state.showBioInput && (
-                            <form onSubmit={this.handleSubmit}>
-                                <label>
-                                    Add bio:
-                                    <input
-                                        type="text"
-                                        value={this.state.bio}
-                                        onChange={this.handleChange}
-                                    />
-                                </label>
-                                <input type="submit" value="Submit" />
-                            </form>
-                        )}
+                <h2 className="title">
+                    {this.props.user.first} {this.props.user.last}
+                </h2>
+
+                <section className="section">
+                    <h2>{this.props.user.bio}</h2>
+
+                    <div>
+                        <button className="button" onClick={this.toggleBio}>
+                            Edit bio
+                        </button>
                     </div>
 
-                    <ProfilePicUpload />
+                    {this.state.showBioInput && (
+                        <form onSubmit={this.handleSubmit}>
+                            <label className="label">Add bio:</label>
+                            <input
+                                className="input"
+                                type="text"
+                                value={this.state.bio}
+                                onChange={this.handleChange}
+                            />
+                            <input type="submit" value="Submit" />
+                        </form>
+                    )}
+                </section>
 
+                <section className="section">
+                    <ProfilePicUpload />
+                </section>
+
+                <section className="section">
                     <div className="profile-posts">
-                        <h2>User Posts</h2>
+                        <h1 className="title">User Post</h1>
                         <PostForm />
                     </div>
-                </div>
+                </section>
             </div>
         );
     }
@@ -93,16 +93,16 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user,
+        user: state.user
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            changeBio,
+            changeBio
         },
-        dispatch,
+        dispatch
     );
 }
 

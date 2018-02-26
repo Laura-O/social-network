@@ -6,7 +6,8 @@ const password = require('../src/models/password.js');
 
 router.post('/register', function(req, res) {
     const { first, last, email, pass } = req.body;
-    const query = 'INSERT INTO users (first, last, email, pass) VALUES ($1, $2, $3, $4)';
+    const query =
+        'INSERT INTO users (first, last, email, pass) VALUES ($1, $2, $3, $4)';
 
     password.hashPassword(pass).then(hashedPassword => {
         db
@@ -33,6 +34,7 @@ router.post('/login', function(req, res) {
                 .then(result => {
                     req.session.user = results.rows[0];
                     res.json({ success: true });
+                    this.props.history.push('/');
                 })
                 .catch(err => {
                     console.log('query error', err.message, err.stack);

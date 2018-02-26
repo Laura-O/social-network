@@ -30,7 +30,7 @@ class OnlineUsers extends Component {
         };
 
         return (
-            <div className="online-users">
+            <div className="online-users section">
                 <div>
                     <h2>Onlineusers</h2>
                 </div>
@@ -42,7 +42,7 @@ class OnlineUsers extends Component {
 
 function mapStateToProps(state) {
     return {
-        onlineUsers: state.onlineUsers,
+        onlineUsers: state.onlineUsers
     };
 }
 

@@ -10,7 +10,7 @@ class PostList extends Component {
     componentDidMount() {
         axios.get(`/getPosts/${this.props.user_id}`).then(({ data }) => {
             this.setState({
-                posts: data,
+                posts: data
             });
         });
     }
@@ -19,17 +19,17 @@ class PostList extends Component {
         const renderPosts = posts => {
             return posts.map(post => {
                 return (
-                    <div className="user-post" key={post.id}>
-                        <h3>{post.title}</h3>
-                        <div className="post-content">{post.content}</div>
-                    </div>
+                    <article className="message is-dark" key={post.id}>
+                        <div className="message-header">{post.title}</div>
+                        <div className="message-body">{post.content}</div>
+                    </article>
                 );
             });
         };
 
         return (
-            <div className="post-wrapper">
-                <h2>User Posts</h2>
+            <div className="post-wrapper section">
+                <h2 className="title">Posts</h2>
                 {this.state.posts && renderPosts(this.state.posts)}
             </div>
         );

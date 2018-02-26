@@ -11,7 +11,8 @@ function isFriend(id1, id2) {
 }
 
 function getUsersById(idArray) {
-    const query = 'SELECT id, first, last, profilepicurl FROM users WHERE id = ANY($1)';
+    const query =
+        'SELECT id, first, last, profilepicurl FROM users WHERE id = ANY($1)';
 
     return db.query(query, [idArray]).then(function(results) {
         return results.rows.map(user => {
@@ -20,14 +21,15 @@ function getUsersById(idArray) {
                 id,
                 first,
                 last,
-                profilepicurl,
+                profilepicurl
             };
         });
     });
 }
 
 function getUserById(id) {
-    const query = 'SELECT id, first, last, email, profilepicurl  FROM users WHERE id = $1';
+    const query =
+        'SELECT id, first, last, email, profilepicurl  FROM users WHERE id = $1';
 
     return db.query(query, [id]).then(function(results) {
         if (!results) {
@@ -38,7 +40,7 @@ function getUserById(id) {
             first: results.rows[0].first,
             last: results.rows[0].last,
             email: results.rows[0].email,
-            profilePicUrl: results.rows[0].profilepicurl,
+            profilePicUrl: results.rows[0].profilepicurl
         };
     });
 }
@@ -80,7 +82,8 @@ function getRequested(id) {
 }
 
 function pendingFriend(id1, id2) {
-    const query = 'SELECT * FROM friend_requests where sender_id = $1 AND receiver_id = $2';
+    const query =
+        'SELECT * FROM friend_requests where sender_id = $1 AND receiver_id = $2';
     return new Promise((resolve, reject) => {
         db
             .query(query, [id1, id2])
@@ -90,7 +93,8 @@ function pendingFriend(id1, id2) {
 }
 
 function sendFriendrequest(id1, id2) {
-    const query = 'INSERT INTO friend_requests (sender_id, receiver_id) VALUES ($1, $2)';
+    const query =
+        'INSERT INTO friend_requests (sender_id, receiver_id) VALUES ($1, $2)';
     return new Promise((resolve, reject) => {
         db
             .query(query, [id1, id2])
@@ -100,7 +104,8 @@ function sendFriendrequest(id1, id2) {
 }
 
 function approveRequest(id1, id2) {
-    const query = 'INSERT INTO friends (user_1, user_2) VALUES ($1, $2), ($2, $1)';
+    const query =
+        'INSERT INTO friends (user_1, user_2) VALUES ($1, $2), ($2, $1)';
     return new Promise((resolve, reject) => {
         db
             .query(query, [id1, id2])
@@ -120,15 +125,17 @@ function cancelFriend(id1, id2) {
                 db
                     .query(query_2, [id1, id2])
                     .then(results => resolve(console.log(results)))
-                    .catch(err => console.log(err)),
+                    .catch(err => console.log(err))
             )
             .catch(err => reject(err));
     });
 }
 
 function cancelRequest(id1, id2) {
-    const query_1 = 'DELETE FROM friend_requests WHERE sender_id = $1 AND receiver_id =  $2';
-    const query_2 = 'DELETE FROM friend_requests WHERE receiver_id = $1 AND sender_id =  $2';
+    const query_1 =
+        'DELETE FROM friend_requests WHERE sender_id = $1 AND receiver_id =  $2';
+    const query_2 =
+        'DELETE FROM friend_requests WHERE receiver_id = $1 AND sender_id =  $2';
 
     return new Promise((resolve, reject) => {
         db
@@ -137,7 +144,7 @@ function cancelRequest(id1, id2) {
                 db
                     .query(query_2, [id1, id2])
                     .then(results => resolve(console.log(results)))
-                    .catch(err => console.log(err)),
+                    .catch(err => console.log(err))
             )
             .catch(err => reject(err));
     });
@@ -182,5 +189,5 @@ module.exports = {
     getReceived,
     getFriends,
     getUsersById,
-    getUserById,
+    getUserById
 };

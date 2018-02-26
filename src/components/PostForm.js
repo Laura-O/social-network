@@ -12,7 +12,7 @@ class PostForm extends Component {
 
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value
         });
     }
 
@@ -27,7 +27,7 @@ class PostForm extends Component {
             .catch(err => {
                 console.log(err);
                 return this.setState({
-                    error: 'error',
+                    error: 'error'
                 });
             });
     }
@@ -37,16 +37,22 @@ class PostForm extends Component {
             <div className="post-form">
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label>
-                            Title
-                            <input type="text" name="title" onChange={this.handleChange} />
-                        </label>
+                        <label className="label">Title</label>
+                        <input
+                            className="input"
+                            type="text"
+                            name="title"
+                            onChange={this.handleChange}
+                        />
                     </div>
                     <div>
-                        <label>
-                            Text
-                            <textarea type="text" name="content" onChange={this.handleChange} />
-                        </label>
+                        <label className="label">Text</label>
+                        <textarea
+                            className="textarea"
+                            type="text"
+                            name="content"
+                            onChange={this.handleChange}
+                        />
                         <input type="submit" value="Submit" />
                     </div>
                 </form>

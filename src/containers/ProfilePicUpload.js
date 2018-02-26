@@ -29,11 +29,8 @@ class ProfilePicUpload extends Component {
     render() {
         return (
             <div className="picture-upload">
-                <div>Want to change your image?</div>
-                <label>
-                    Upload
-                    <input type="file" name="file" onChange={this.uploadFile} />
-                </label>
+                <label className="label">Upload new profile picture</label>
+                <input type="file" name="file" onChange={this.uploadFile} />
             </div>
         );
     }
@@ -41,16 +38,16 @@ class ProfilePicUpload extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user,
+        user: state.user
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            changeProfilePic,
+            changeProfilePic
         },
-        dispatch,
+        dispatch
     );
 }
 

@@ -4,21 +4,32 @@ import AuthForm from './AuthForm';
 
 function Login({ error, handleChange, handleSubmit }) {
     return (
-        <div>
+        <div className="field is-horizontal">
             <form onSubmit={handleSubmit}>
-                <label>
-                    Email:
-                    <input type="text" name="email" onChange={handleChange} />
-                </label>
-                <label>
-                    Password:
-                    <input type="password" name="pass" onChange={handleChange} />
-                </label>
-                <input type="submit" value="Submit" />
+                <div className="field is-horizontal">
+                    <label>Email:</label>
+                    <input
+                        className="input"
+                        type="text"
+                        name="email"
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="field is-horizontal">
+                    <label>Password:</label>
+                    <input
+                        className="input"
+                        type="password"
+                        name="pass"
+                        onChange={handleChange}
+                    />
+                </div>
+                <input className="button" type="submit" value="Submit" />
+
+                <div classname="is-horizontal">
+                    Not registered? <Link to="/register">Register!</Link>
+                </div>
             </form>
-            <div>
-                Not registered? <Link to="/register">Register!</Link>
-            </div>
         </div>
     );
 }

@@ -9,7 +9,7 @@ class Welcome extends Component {
             <div className="welcome">
                 <img className="welcome-logo" src="/images/fz-logo.png" />
                 <HashRouter>
-                    <div>
+                    <div className="form-wrapper section">
                         <Route exact path="/" component={Registration} />
                         <Route path="/login" component={Login} />
                     </div>

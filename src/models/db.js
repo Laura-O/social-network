@@ -3,7 +3,9 @@ const Pool = require('pg-pool');
 const config = {
     host: 'localhost',
     port: 5432,
-    database: 'social',
+    user: 'postgres',
+    password: 'bla',
+    database: 'social'
 };
 
 const pool = new Pool(config);
@@ -36,5 +38,5 @@ const query = (sql, params) => {
 
 module.exports = {
     query,
-    pool,
+    pool
 };

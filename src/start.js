@@ -13,9 +13,15 @@ import Welcome from './components/Welcome.js';
 import App from './containers/App.js';
 import rootReducer from './reducers/index';
 
-import './css/index.css';
+import bulma from 're-bulma/build/css';
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxPromise)));
+import './css/index.css';
+import 'bulma/css/bulma.css';
+
+export const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(reduxPromise))
+);
 
 let guestRouter = (
     <HashRouter>

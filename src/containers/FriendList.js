@@ -6,7 +6,7 @@ import {
     getFriends,
     cancelFriendship,
     addFriend,
-    approveRequest,
+    approveRequest
 } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import ProfilePic from '../components/ProfilePic';
@@ -30,7 +30,11 @@ class FriendList extends Component {
         const renderProfiles = (friendData, friends) => {
             return friendData.map(friend => {
                 const dispatchFunction = friends ? (
-                    <button onClick={() => this.props.cancelFriendship(friend.id)}>Cancel</button>
+                    <button
+                        onClick={() => this.props.cancelFriendship(friend.id)}
+                    >
+                        Cancel
+                    </button>
                 ) : (
                     <button
                         onClick={() => {
@@ -58,14 +62,18 @@ class FriendList extends Component {
         };
 
         return (
-            <div>
-                <h2>People waiting to be friendzoned by you</h2>
+            <div className="section">
+                <h2 className="title">
+                    People waiting to be friendzoned by you
+                </h2>
                 <div className="friends-wrapper">
-                    {this.props.friendRequests && renderProfiles(this.props.friendRequests)}
+                    {this.props.friendRequests &&
+                        renderProfiles(this.props.friendRequests)}
                 </div>
-                <h2>People in your friendzone</h2>
+                <h2 className="title">People in your friendzone</h2>
                 <div className="friends-wrapper">
-                    {this.props.friends && renderProfiles(this.props.friends, true)}
+                    {this.props.friends &&
+                        renderProfiles(this.props.friends, true)}
                 </div>
             </div>
         );
@@ -75,7 +83,7 @@ class FriendList extends Component {
 function mapStateToProps(state) {
     return {
         friends: state.friends,
-        friendRequests: state.friendRequests,
+        friendRequests: state.friendRequests
     };
 }
 
@@ -86,9 +94,9 @@ function mapDispatchToProps(dispatch) {
             getFriends: getFriends,
             cancelFriendship: cancelFriendship,
             addFriend: addFriend,
-            approveRequest: approveRequest,
+            approveRequest: approveRequest
         },
-        dispatch,
+        dispatch
     );
 }
 
